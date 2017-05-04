@@ -71,7 +71,7 @@
 												<td><?php echo $email; ?></td>
 												<td><?php echo $address; ?></td>
 												<td><?php echo $phone; ?></td>
-												<td><a href="view_user.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a></td>
+												<td><a href="view_user.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.user('<?php echo $id; ?>', '<?php echo $firstname.' '.$lastname; ?>')" class="button icon fa-times"></a></td>
 											</tr>
 
 											<?php

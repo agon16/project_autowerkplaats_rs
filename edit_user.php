@@ -4,28 +4,16 @@
 
 	$box = "";
 
-	if(!isset($_GET['id'])) {
-		exit(); // Cancel loading page
-	}
-
 	$id = $_GET['id'];
 
-	$sql = "SELECT * FROM users WHERE id = '$id'";
-	$query = $conn->query($sql);
-
-	while ($result = $query->fetch_assoc()) {
-		$firstname = $result['firstname'];
-		$lastname = $result['lastname'];
-		$address = $result['address'];
-		$email = $result['email'];
-		$phone = $result['phone'];
-		$role = $result['user_role_id'];
+	if(!isset($_GET['id'])) {
+		exit(); // Cancel loading page
 	}
 
 	/**
 	* Add user
 	*/
-	if(isset($_POST['add'])) {
+	if(isset($_POST['update'])) {
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
 		$address = $_POST['address'];
@@ -34,13 +22,27 @@
 		// $image = $_POST['image'];
 		$password = sha1($_POST['password']);
 
-		$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', password = '$password' WHERE id = '$id'";
+		$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone' WHERE id = '$id'";
 		if($conn->query($sql)) {
-			echo "OK";
+			header("Location: overview_users.php");
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
+	} else {
+		$sql = "SELECT * FROM users WHERE id = '$id'";
+		$query = $conn->query($sql);
+
+		while ($result = $query->fetch_assoc()) {
+			$firstname = $result['firstname'];
+			$lastname = $result['lastname'];
+			$address = $result['address'];
+			$email = $result['email'];
+			$phone = $result['phone'];
+			$role = $result['user_role_id'];
+		}
 	}
+
+
 
 ?>
 <!-- Wrapper -->
@@ -69,7 +71,7 @@
 					<div class="4u 12u$(medium)">
 
 						<!-- Login form -->
-						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+						<form method="post" action="<?php echo $_SERVER['PHP_SELF'].'?id='.$id; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
 									<input name="firstname" id="firstname" value="<?php echo $firstname; ?>" placeholder="Voornaam" type="text">
@@ -109,7 +111,7 @@
 								<div class="12u$">
 									<ul class="actions">
 										<li><input value="Terug" class="button" type="button" onclick="history.go(-1);"></li>
-										<li><input value="Toevoegen" class="special" name="add" type="submit"></li>
+										<li><input value="Bewerken" class="special" name="update" type="submit"></li>
 									</ul>
 								</div>
 							</div>

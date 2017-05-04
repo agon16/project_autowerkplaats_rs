@@ -75,10 +75,10 @@
 
 				<!-- Content -->
 				<div class="row 200%">
-					<div class="4u 12u$(medium)">
+					<div class="3u 12u$(medium)">
 						<p style="color: white">.</p>
 					</div>
-					<div class="4u 12u$(medium)">
+					<div class="6u 12u$(medium)">
 
 						<!-- Login form -->
 						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -122,6 +122,7 @@
 									<ul class="actions">
 										<li><input value="Toevoegen" class="special" name="add" type="submit"></li>
 										<li><input id="btnUpload" class="button" type="button" value="Foto uploaden"></li>
+										<li><a class="button" onclick="history.go(-1);">Terug</a></li>
 									</ul>
 								</div>
 								<input style="display: none;" name="photo" type="file">

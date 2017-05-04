@@ -3,7 +3,7 @@
 	require 'backend/db.php';
 
 	$style = "";
-	$columns = array('firstname', 'lastname', 'brand', 'model', 'license_plate', 'manufactured_date', 'company_id', 'number_persons');
+	$columns = array('persons.firstname', 'persons.lastname', 'brand', 'model', 'license_plate', 'manufactured_date', 'company_id', 'number_persons');
 	$columns_view = array('Voornaam', 'Achternaam', 'Merk', 'Model', 'Plaat nummer', 'Bouwjaar', 'Bedrijfs eigendom', 'Aantal personen');
 
 ?>
@@ -78,7 +78,11 @@
 								$column = $_POST['column'];
 								$column = $columns[$column];
 
-								$sql = "SELECT * FROM users INNER JOIN cars ON users.id = cars.user_id WHERE $column = '$term'";
+								$sql = "SELECT * FROM persons 
+								INNER JOIN cars ON persons.id = cars.person_id 
+								INNER JOIN car_models ON car_models.id = cars.car_model_id 
+								LEFT JOIN companies ON cars.company_id = companies.id WHERE $column = '$term'";
+								echo $sql;
 								$query = $conn->query($sql);
 
 								if($query->num_rows == 0) {
@@ -97,6 +101,12 @@
 									$company = $result['company_id'];
 									$number_persons = $result['number_persons'];
 									$created_at = $result['created_at'];
+									if($company == 0) {
+										$company = "Nee";
+									} else if($company > 0) {
+										$company = $result['name'];
+									}
+
 						?>
 
 									<tr>
@@ -108,13 +118,16 @@
 										<td><?php echo $manufactured_date; ?></td>
 										<td><?php echo $company; ?></td>
 										<td><?php echo $number_persons; ?></td>
-										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a></td>
+										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.car('<?php echo $id; ?>', '<?php echo $brand.' '.$model; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 
 						<?php
 								}
 							} else {
-								$sql = "SELECT * FROM users INNER JOIN cars ON users.id = cars.user_id";
+								$sql = "SELECT * FROM persons 
+								INNER JOIN cars ON persons.id = cars.person_id 
+								INNER JOIN car_models ON car_models.id = cars.car_model_id 
+								LEFT JOIN companies ON cars.company_id = companies.id";
 								$query = $conn->query($sql);
 
 								while ($result = $query->fetch_assoc()) {
@@ -128,6 +141,12 @@
 									$company = $result['company_id'];
 									$number_persons = $result['number_persons'];
 									$created_at = $result['created_at'];
+									if($company == 0) {
+										$company = "Nee";
+									} else if($company > 0) {
+										$company = $result['name'];
+									}
+
 								?>
 
 									<tr>
@@ -139,7 +158,7 @@
 										<td><?php echo $manufactured_date; ?></td>
 										<td><?php echo $company; ?></td>
 										<td><?php echo $number_persons; ?></td>
-										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a></td>
+										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.car('<?php echo $id; ?>', '<?php echo $brand.' '.$model; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 
 						<?php
