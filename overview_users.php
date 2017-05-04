@@ -21,10 +21,10 @@
 				<!-- Content -->
 					<section>
 						<header class="main">
-							<h1>Gebruikers overzicht</h1>
+							<h1>Medewerkers overzicht</h1>
 						</header>
 
-						<a href="add_user.php" class="button special">Gebruiker toevoegen</a>
+						<a href="add_user.php" class="button special">Medewerker toevoegen</a>
 							<br><br>
 
 						<!-- Content -->

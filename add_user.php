@@ -70,7 +70,7 @@
 			<!-- Content -->
 			<section>
 				<header class="main">
-					<div align="center"><h2>Gebruiker toevoegen</h2></div>
+					<div align="center"><h2>GebruikerMedewerker toevoegen</h2></div>
 				</header>
 
 				<!-- Content -->
@@ -101,7 +101,7 @@
 								<div class="12u$">
 									<div class="select-wrapper">
 										<select name="user_role" id="user_role">
-											<option value="">- Gebruiker rol -</option>
+											<option value="">- Medewerker rol -</option>
 											<?php
 												$sql = "SELECT id, role FROM user_roles";
 												$query = $conn->query($sql);

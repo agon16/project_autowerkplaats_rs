@@ -40,6 +40,7 @@
 				</li>
 				<li><a href="#">Informeren</a></li>
 				<li><a href="overview_companies.php">Bedrijven</a></li>
+				<li><a href="overview_logs.php">Logs</a></li>
 				<li><a href="login.php">Uitloggen</a></li>
 			</ul>
 		</nav>

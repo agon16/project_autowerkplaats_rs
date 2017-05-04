@@ -16,6 +16,11 @@
 
 		if($query->num_rows == 1) {
 			$_SESSION['userID'] = $query->fetch_assoc()['id'];
+			$id = $_SESSION['userID'];
+
+			// Create Log
+			$conn->query("INSERT INTO logs (user_id, created_at) VALUES ($id, NOW())");
+
 			header("Location: overview_users.php");
 		}
 	}
