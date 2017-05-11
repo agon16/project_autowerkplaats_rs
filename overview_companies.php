@@ -1,8 +1,16 @@
 <?php
+	session_start();
+
 	require 'includes/head.php';
 	require 'backend/db.php';
 
 	$style = "";
+
+	if(isset($_SESSION['message'])) {
+		$message = '<div class="box"><p>'.$_SESSION['message'].'</p></div>';
+	} else {
+		$message = '';
+	}
 
 ?>
 <!-- Wrapper -->
@@ -100,6 +108,8 @@
 						<?php
 									}
 							}
+
+							echo $message;
 						?>
 
 										</tbody>
@@ -126,4 +136,5 @@
 
 <?php
 	require 'includes/foot.php';
+	unset($_SESSION['message']);
 ?>

@@ -3,8 +3,8 @@
 	require 'backend/db.php';
 
 	$style = "";
-	$columns = array('persons.firstname', 'persons.lastname', 'brand', 'model', 'license_plate', 'manufactured_date', 'company_id', 'number_persons');
-	$columns_view = array('Voornaam', 'Achternaam', 'Merk', 'Model', 'Plaat nummer', 'Bouwjaar', 'Bedrijfs eigendom', 'Aantal personen');
+	$columns = array('persons.firstname', 'persons.lastname', 'brand', 'model', 'license_plate', 'company_id');
+	$columns_view = array('Voornaam', 'Achternaam', 'Merk', 'Model', 'Plaat nummer', 'Bedrijfs eigendom');
 
 ?>
 <!-- Wrapper -->
@@ -40,7 +40,7 @@
 										<div class="3u 12u$(xsmall)">
 											<div class="select-wrapper">
 												<select name="column" id="column">
-													<option value="">- Filteren op -</option>
+													<option value="none">- Filteren op -</option>
 													<?php
 														for ($i=0; $i < count($columns_view); $i++) { 
 															echo '<option value="'.$i.'">'.ucfirst($columns_view[$i]).'</option>';
@@ -55,6 +55,9 @@
 									</div>
 								</form>
 
+								<a href="add_car.php" class="button special">Auto toevoegen</a>
+									<br><br>
+
 								<div class="table-wrapper">
 									<table class="alt">
 										<thead id="thead">
@@ -64,29 +67,26 @@
 												<th>Merk</th>
 												<th>Model</th>
 												<th>Plaat</th>
-												<th>Bouwjaar</th>
 												<th>Bedrijf</th>
-												<th># personen</th>
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											
 						<?php
-							if(isset($_POST['searchTerm']) && !empty($_POST['term']) && !empty($_POST['column'])) {
+							if( isset($_POST['searchTerm']) && !empty($_POST['term']) && $_POST['column'] != "none") {
 								$term = $_POST['term'];
 								$column = $_POST['column'];
 								$column = $columns[$column];
 
-								$sql = "SELECT * FROM persons 
-								INNER JOIN cars ON persons.id = cars.person_id 
-								INNER JOIN car_models ON car_models.id = cars.car_model_id 
-								LEFT JOIN companies ON cars.company_id = companies.id WHERE $column = '$term'";
-								echo $sql;
+								$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model, car_models.manufactured_date, car_models.number_persons FROM cars 
+									INNER JOIN persons ON cars.person_id = persons.id 
+									INNER JOIN car_models ON car_models.id = cars.car_model_id 
+									LEFT JOIN companies ON cars.company_id = companies.id WHERE $column LIKE '%$term%'";
 								$query = $conn->query($sql);
 
 								if($query->num_rows == 0) {
-									echo '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
+									echo '<div class="box"><p>Foutmelding komt hierin. <b>Geen velden</b></p></div>';
 									$style = 'none';
 								}
 
@@ -115,19 +115,17 @@
 										<td><?php echo $brand; ?></td>
 										<td><?php echo $model; ?></td>
 										<td><?php echo $license_number; ?></td>
-										<td><?php echo $manufactured_date; ?></td>
 										<td><?php echo $company; ?></td>
-										<td><?php echo $number_persons; ?></td>
 										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.car('<?php echo $id; ?>', '<?php echo $brand.' '.$model; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 
 						<?php
 								}
 							} else {
-								$sql = "SELECT * FROM persons 
-								INNER JOIN cars ON persons.id = cars.person_id 
-								INNER JOIN car_models ON car_models.id = cars.car_model_id 
-								LEFT JOIN companies ON cars.company_id = companies.id";
+								$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model, car_models.manufactured_date, car_models.number_persons FROM cars 
+									INNER JOIN persons ON cars.person_id = persons.id 
+									INNER JOIN car_models ON car_models.id = cars.car_model_id 
+									LEFT JOIN companies ON cars.company_id = companies.id";
 								$query = $conn->query($sql);
 
 								while ($result = $query->fetch_assoc()) {
@@ -155,9 +153,7 @@
 										<td><?php echo $brand; ?></td>
 										<td><?php echo $model; ?></td>
 										<td><?php echo $license_number; ?></td>
-										<td><?php echo $manufactured_date; ?></td>
 										<td><?php echo $company; ?></td>
-										<td><?php echo $number_persons; ?></td>
 										<td><a href="view_car.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.car('<?php echo $id; ?>', '<?php echo $brand.' '.$model; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 

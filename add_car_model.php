@@ -9,7 +9,7 @@
 	* Check if there is a cache available from the previous page
 	*/
 	if(isset($_SESSION['cache'])) {
-		
+
 		switch ($_SESSION['cache']) {
 			case 1:
 				$page = 'add_car.php';
@@ -20,22 +20,24 @@
 				break;
 			
 			default:
-				$page = 'overview_companies.php';
+				$page = 'overview_car_models.php';
 				break;
 		}
 
 	}
 
+
+
 	/**
 	* Add user
 	*/
 	if(isset($_POST['add'])) {
-		$name = $_POST['name'];
-		$address = $_POST['address'];
-		$phone = $_POST['phone'];
-		$email = $_POST['email'];
+		$brand = $_POST['brand'];
+		$model = $_POST['model'];
+		$manufactured_date = $_POST['manufactured_date'];
+		$number_persons = $_POST['number_persons'];
 
-		$sql = "INSERT INTO companies (name, address, phone, email) VALUES ('$name', '$address', '$phone', '$email')";
+		$sql = "INSERT INTO car_models (brand, model, manufactured_date, number_persons) VALUES ('$brand', '$model', '$manufactured_date', '$number_persons')";
 		if($conn->query($sql)) {
 			header("Location: " . $page);
 		} else {
@@ -60,7 +62,7 @@
 			<!-- Content -->
 			<section>
 				<header class="main">
-					<div align="center"><h2>Bedrijf toevoegen</h2></div>
+					<div align="center"><h2>Auto model toevoegen</h2></div>
 				</header>
 
 				<!-- Content -->
@@ -71,19 +73,22 @@
 					<div class="4u 12u$(medium)">
 
 						<!-- Login form -->
-						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="name" id="name" value="" placeholder="Naam" type="text">
+									<input name="brand" id="brand" value="" placeholder="Merk" type="text">
 								</div>
+
 								<div class="12u 12u$(xsmall)">
-									<input name="address" id="address" value="" placeholder="Adres" type="text">
+									<input name="model" id="model" value="" placeholder="Model" type="text">
 								</div>
+
 								<div class="12u 12u$(xsmall)">
-									<input name="phone" id="phone" value="" placeholder="Telefoon" type="text">
+									<input name="manufactured_date" id="manufactured_date" value="" placeholder="Bouwjaar" type="text">
 								</div>
+
 								<div class="12u 12u$(xsmall)">
-									<input name="email" id="email" value="" placeholder="Email" type="text">
+									<input name="number_persons" id="number_persons" value="" placeholder="Aantal personen" type="text">
 								</div>
 
 								<!-- Break -->

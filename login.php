@@ -3,6 +3,8 @@
 
 	require 'includes/head.php';
 	require 'backend/db.php';
+	
+	$box = "";
 
 	/**
 	* Login
@@ -22,6 +24,8 @@
 			$conn->query("INSERT INTO logs (user_id, created_at) VALUES ($id, NOW())");
 
 			header("Location: overview_users.php");
+		} else {
+			$box = '<div class="box"><p style="text-align: center;">Ga na dat alle velden juist zijn.</p></div>';
 		}
 	}
 	
@@ -68,6 +72,8 @@
 										</div>
 									</div>
 								</form>
+
+								<?php echo $box; ?>
 
 							</div>
 						</div>

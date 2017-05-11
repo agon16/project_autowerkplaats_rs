@@ -8,7 +8,7 @@
 
 	$id = $_GET['id'];
 
-	$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model FROM cars 
+	$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model, car_models.manufactured_date, car_models.number_persons FROM cars 
 	INNER JOIN persons ON cars.person_id = persons.id 
 	INNER JOIN car_models ON car_models.id = cars.car_model_id 
 	LEFT JOIN companies ON cars.company_id = companies.id WHERE cars.id = '$id'";
