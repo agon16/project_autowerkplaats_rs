@@ -1,0 +1,39 @@
+.recent_werzaamheden{
+	position: absolute;
+    width: 20%;
+    height: 750px;
+    right: 0;
+    top: 269px;
+    background-color: #eceff1;
+}
+.profile_holder{
+	height: 50px;
+	margin-left: 30px;
+}
+.profile_foto{
+	height: 100%;
+	border-radius: 100%;
+}
+.aanwezig{
+	position: absolute;
+	bottom: 0px;
+	left: 45px;
+	height: 15px;
+	width: 15px;
+	background-color: green;
+	border-radius: 100%; 
+}
+footer {
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:30px;
+   width:100%;
+}
+.inline{ 
+	float:left;
+}
+.main_profile_page{
+	position: absolute;
+	left: 30px;
+}

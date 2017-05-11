@@ -51,14 +51,14 @@
 										<div class="12u 12u$(xsmall)">
 											<input name="email" id="email" value="" placeholder="Email" type="text" required="">
 										</div>
-										<div class="12u$ 12u$(xsmall)">
+										<div class="12u 12u$(xsmall)">
 											<input name="password" id="password" value="" placeholder="Password" type="password" required="dsfds">
 										</div>
 
 										<!-- Break -->
-										<div class="12u$">
-											<ul class="actions">
-												<li><input value="Login" class="special" name="login" type="submit"></li>
+										<div class="12u 12u$">
+											<ul class="actions vertical">
+												<li><input value="Login" class="button special fit" name="login" type="submit"></li>
 											</ul>
 										</div>
 									</div>

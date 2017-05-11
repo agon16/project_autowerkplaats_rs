@@ -57,13 +57,13 @@
 			</ul>
 		</section>
 
-		<!-- Footer -->
+		<!-- Footer --><!-- 
 		<footer id="footer">
 			<p class="copyright">&copy; RS Auto Werkplaats Web App. 
 			<br>All rights reserved. 
 				<br>
 			Developed by: <a>Timothy Pocorni</a>,  <a>Sheldon Hupsel</a>, <a>Agon Emanuel</a> & <a>Rivaldo Vola</a>.</p>
-		</footer>
+		</footer> -->
 
 	</div>
 </div>
