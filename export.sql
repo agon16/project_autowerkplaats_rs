@@ -45,6 +45,32 @@ INSERT INTO `activities` VALUES (1,2,'Spark plug repair','Spark plug was beschad
 UNLOCK TABLES;
 
 --
+-- Table structure for table `car_models`
+--
+
+DROP TABLE IF EXISTS `car_models`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `car_models` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `brand` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `car_models`
+--
+
+LOCK TABLES `car_models` WRITE;
+/*!40000 ALTER TABLE `car_models` DISABLE KEYS */;
+INSERT INTO `car_models` VALUES (1,'Toyota','Hilux','2017-05-04 14:23:37');
+/*!40000 ALTER TABLE `car_models` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cars`
 --
 
@@ -53,11 +79,10 @@ DROP TABLE IF EXISTS `cars`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `inspected` int(11) NOT NULL DEFAULT '0',
+  `car_model_id` int(11) NOT NULL,
   `license_plate` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `brand` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sachi_number` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `manufactured_date` int(11) NOT NULL DEFAULT '2000',
   `company_id` int(11) NOT NULL,
@@ -74,7 +99,7 @@ CREATE TABLE `cars` (
 
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
-INSERT INTO `cars` VALUES (1,3,1,'54-85 PA','Toyota','Hilux','000',2003,1,6,'','2017-05-02 02:48:53');
+INSERT INTO `cars` VALUES (1,5,1,1,'54-85 PA','000',2003,1,6,'','2017-05-02 02:48:53');
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,6 +113,9 @@ DROP TABLE IF EXISTS `companies`;
 CREATE TABLE `companies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -99,7 +127,7 @@ CREATE TABLE `companies` (
 
 LOCK TABLES `companies` WRITE;
 /*!40000 ALTER TABLE `companies` DISABLE KEYS */;
-INSERT INTO `companies` VALUES (1,'Staatsolie N.V.','2017-05-02 02:47:14');
+INSERT INTO `companies` VALUES (1,'Staatsolie N.V.','','','','2017-05-02 02:47:14');
 /*!40000 ALTER TABLE `companies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,6 +182,35 @@ LOCK TABLES `logs` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `persons`
+--
+
+DROP TABLE IF EXISTS `persons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `persons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `persons`
+--
+
+LOCK TABLES `persons` WRITE;
+/*!40000 ALTER TABLE `persons` DISABLE KEYS */;
+INSERT INTO `persons` VALUES (5,'Agon','Emanuel','Ergens','','','2017-05-04 12:09:01');
+/*!40000 ALTER TABLE `persons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `towing_charges`
 --
 
@@ -202,7 +259,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (0,0,'client','2017-05-02 02:45:06'),(1,1,'admin','2017-05-01 22:02:02'),(2,3,'cashier','2017-05-02 02:42:17'),(3,3,'mechanic','2017-05-02 02:42:17'),(4,2,'accounting','2017-05-02 02:42:17');
+INSERT INTO `user_roles` VALUES (1,1,'admin','2017-05-01 22:02:02'),(2,2,'cashier','2017-05-02 02:42:17'),(3,2,'mechanic','2017-05-02 02:42:17'),(4,2,'accounting','2017-05-02 02:42:17');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +282,7 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +291,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,1,'Timothy','Pocorni','Billistraat 23','tim.poco01@gmail.com','8987273','','37a72090e1a30a7080c36883b0aac0bd5ef51690','2017-05-01 22:02:16'),(2,3,'Dummy','User','','','684684','','','2017-05-02 01:03:53'),(3,0,'Agon','Emanuel','','agon@emanuel.com','112233','','','2017-05-02 02:45:53');
+INSERT INTO `users` VALUES (1,1,'Timothy','Pocorni','Billistraat 23','tim.poco01@gmail.com','8987273','','37a72090e1a30a7080c36883b0aac0bd5ef51690','2017-05-01 22:02:16'),(2,3,'Dummy','User','','','684684','','','2017-05-02 01:03:53');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,4 +312,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-03 20:34:22
+-- Dump completed on 2017-05-04 12:03:37

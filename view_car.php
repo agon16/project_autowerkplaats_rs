@@ -8,7 +8,10 @@
 
 	$id = $_GET['id'];
 
-	$sql = "SELECT * FROM cars INNER JOIN users ON cars.user_id = users.id WHERE cars.id = '$id'";
+	$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model FROM cars 
+	INNER JOIN persons ON cars.person_id = persons.id 
+	INNER JOIN car_models ON car_models.id = cars.car_model_id 
+	LEFT JOIN companies ON cars.company_id = companies.id WHERE cars.id = '$id'";
 	$query = $conn->query($sql);
 
 	if($query->num_rows == 0) {
@@ -20,11 +23,14 @@
 		$car_name = $result['brand'].' '.$result['model'];
 		$license_plate = $result['license_plate'];
 		$manufactured_date = $result['manufactured_date'];
-		$isCompany = $result['company_id'];
+		$company = $result['company_id'];
+		$company_name = $result['name'];
 		$number_persons = $result['number_persons'];
 
-		if($isCompany > 0) {
-			$isCompany = "Ja (Een bedrijfnaam)";
+		if($company > 0) {
+			$company = $company_name;
+		} else if($company == 0) {
+			$company = "Nee";
 		}
 	}
 
@@ -54,7 +60,7 @@
 						<p style="font-size: 1.5em;""><b>Auto merk: </b><?php echo $car_name; ?></p>
 						<p style="font-size: 1.5em;""><b>Plaat nummer: </b><?php echo $license_plate; ?></p>
 						<p style="font-size: 1.5em;""><b>Bouwjaar: </b><?php echo $manufactured_date; ?></p>
-						<p style="font-size: 1.5em;""><b>Bedrijfsauto: </b><?php echo $isCompany; ?></p>
+						<p style="font-size: 1.5em;""><b>Bedrijfseigendom: </b><?php echo $company; ?></p>
 						<p style="font-size: 1.5em;""><b>Personen: </b><?php echo $number_persons; ?></p>
 					</div>
 					<span class="image object">

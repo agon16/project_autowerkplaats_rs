@@ -17,29 +17,30 @@
 				<li><a href="#">Dashboard</a></li>
 				<li><a href="overview_activities.php">Werkzaamheden</a></li>
 				<li>
-					<span class="opener">Autokeringen</span>
+					<span class="opener">Autokeuringen</span>
 					<ul>
 						<li><a href="overview_inspections.php">Recente autokeuringen</a></li>
 						<li><a href="#">Vervallen autokeuringen</a></li>
 					</ul>
 				</li>
-				<li><a href="overview_cars.php">Auto's overzicht</a></li>
 				<li>
-					<span class="opener">Gebruikers</span>
+					<span class="opener">Auto's</span>
+					<ul>
+						<li><a href="overview_cars.php">Auto's overzicht</a></li>
+						<li><a href="#">Auto modellen</a></li>
+					</ul>
+				</li>
+				<li>
+					<span class="opener">Medewerkers</span>
 					<ul>
 						<li><a href="overview_users.php">Medewerkers overzicht</a></li>
 						<li><a href="add_user.php">Medewerker toevoegen</a></li>
+						<li><a href="overview_roles.php">Rollen</a></li>
 					</ul>
 				</li>
-				<li>
-					<span class="opener">Klanten</span>
-					<ul>
-						<li><a href="overview_clients.php">Klanten overzicht</a></li>
-						<li><a href="add_user.php">Klant toevoegen</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Feedback</a></li>
-				<li><a href="#">Bedrijven</a></li>
+				<li><a href="#">Informeren</a></li>
+				<li><a href="overview_companies.php">Bedrijven</a></li>
+				<li><a href="overview_logs.php">Logs</a></li>
 				<li><a href="login.php">Uitloggen</a></li>
 			</ul>
 		</nav>

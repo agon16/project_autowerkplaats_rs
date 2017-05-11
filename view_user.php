@@ -58,7 +58,7 @@
 				</section>
 
 				<button class="button" onclick="history.go(-1);">Terug</button>
-				<button class="button special icon fa-edit">Bewerken</button>
+				<a href="edit_user.php?id=<?php echo $id ?>" class="button special icon fa-edit">Bewerken</a>
 
 			</section>
 

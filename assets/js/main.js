@@ -302,3 +302,90 @@ $(function() {
 		$('[name="photo"]').click();
 	});
 });
+
+var remove = {
+	user: function(id, user) {
+		swal({
+		  title: 'Bent u zeker dat u '+user+' wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    user+' is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_user.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	car: function(id, car) {
+		swal({
+		  title: 'Bent u zeker dat u '+car+' wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    car+' is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_car.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	company: function(id, company) {
+		swal({
+		  title: 'Bent u zeker dat u '+company+' wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    company+' is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_company.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	role: function(id, role) {
+		swal({
+		  title: 'Bent u zeker dat u de '+role+' rol wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    role+' is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_company.php?id='+id;
+		    }, 650)
+		  )
+		})
+	}
+};

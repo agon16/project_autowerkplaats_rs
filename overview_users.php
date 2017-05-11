@@ -21,10 +21,10 @@
 				<!-- Content -->
 					<section>
 						<header class="main">
-							<h1>Gebruikers overzicht</h1>
+							<h1>Medewerkers overzicht</h1>
 						</header>
 
-						<a href="add_user.php" class="button special">Gebruiker toevoegen</a>
+						<a href="add_user.php" class="button special">Medewerker toevoegen</a>
 							<br><br>
 
 						<!-- Content -->
@@ -71,7 +71,7 @@
 												<td><?php echo $email; ?></td>
 												<td><?php echo $address; ?></td>
 												<td><?php echo $phone; ?></td>
-												<td><a href="view_user.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a></td>
+												<td><a href="view_user.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.user('<?php echo $id; ?>', '<?php echo $firstname.' '.$lastname; ?>')" class="button icon fa-times"></a></td>
 											</tr>
 
 											<?php
