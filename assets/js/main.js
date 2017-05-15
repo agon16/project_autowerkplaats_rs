@@ -285,6 +285,18 @@
 })(jQuery);
 
 /**
+* Page onload -> logo indicator
+*/
+
+
+/**
+* Disable character input on keypress
+*/
+function numericOnly(event) {
+	return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 0 || event.charCode == 46;
+}
+
+/**
 * Datepicker
 */
 $( function() {
@@ -449,6 +461,27 @@ var remove = {
 		    'success',
 		    setTimeout(function() {
 		    	window.location = 'delete/delete_activity.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	towed_car: function(id) {
+		swal({
+		  title: 'Bent u zeker dat u deze sleep actie wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    'Sleep activiteit is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_towed_car.php?id='+id;
 		    }, 650)
 		  )
 		})

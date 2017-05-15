@@ -48,7 +48,7 @@
 				<section id="banner">
 					<div class="content">
 						<p style="font-size: 1.5em;"><b>Voornaam: </b><?php echo $firstname; ?></p>
-						<p style="font-size: 1.5em;""><b>Achternaam: </b><?php echo $lastname; ?></p>
+						<p style="font-size: 1.5em;"><b>Achternaam: </b><?php echo $lastname; ?></p>
 						<p style="font-size: 1.5em;""><b>Adres: </b><?php echo $address; ?></p>
 						<p style="font-size: 1.5em;""><b>Email: </b><?php echo $email; ?></p>
 						<p style="font-size: 1.5em;""><b>Telefoon nummer: </b><?php echo $phone; ?></p>

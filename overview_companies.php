@@ -84,7 +84,7 @@
 									<tr>
 										<td><?php echo $name; ?></td>
 										<td><?php echo $created_at; ?></td>
-										<td><a href="delete.company('<?php echo $id.' \', \''.$name ?>')" class="button special icon fa-times">Verwijderen</a></td>
+										<td><a href="view_company.php?id=<?php echo $id; ?>" class="button special icon fa-times">Bekijken</a><a onclick="remove.company('<?php echo $id.' \', \''.$name ?>')" class="button icon fa-times">Verwijderen</a></td>
 									</tr>
 
 						<?php
@@ -102,7 +102,7 @@
 									<tr>
 										<td><?php echo $name; ?></td>
 										<td><?php echo $created_at; ?></td>
-										<td><a onclick="remove.company('<?php echo $id.' \', \''.$name ?>')" class="button special icon fa-times">Verwijderen</a></td>
+										<td><a href="view_company.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.company('<?php echo $id.' \', \''.$name ?>')" class="button icon fa-times">Verwijderen</a></td>
 									</tr>
 
 						<?php

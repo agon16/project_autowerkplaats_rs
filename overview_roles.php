@@ -83,9 +83,10 @@
 						?>
 
 									<tr>
+										<td><?php echo $level; ?></td>
 										<td><?php echo $role; ?></td>
 										<td><?php echo $created_at; ?></td>
-										<td><a onclick="remove.role('<?php echo $id.' \', \''.$role ?>')" class="button special icon fa-times">Verwijderen</a></td>
+										<td><a href="edit_role.php?id=<?php echo $id;?>" class="button special icon fa-times">Verwijderen</a><a onclick="remove.role('<?php echo $id.' \', \''.$role ?>')" class="button special icon fa-times">Verwijderen</a></td>
 									</tr>
 
 						<?php
@@ -102,9 +103,10 @@
 						?>
 
 									<tr>
+										<td><?php echo $level; ?></td>
 										<td><?php echo $role; ?></td>
 										<td><?php echo $created_at; ?></td>
-										<td><a onclick="remove.role('<?php echo $id.' \', \''.$role ?>')" class="button special icon fa-times">Verwijderen</a></td>
+										<td><a href="edit_role.php?id=<?php echo $id;?>" class="button icon fa-circle">Bewerken</a><a style="margin-left: 20px;" onclick="remove.role('<?php echo $id.' \', \''.$role ?>')" class="button special icon fa-times">Verwijderen</a></td>
 									</tr>
 
 						<?php

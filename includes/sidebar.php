@@ -1,3 +1,16 @@
+<?php
+	if(isset($_SESSION['userID'])) {
+		$id = $_SESSION['userID'];
+
+		$sql = "SELECT * FROM users INNER JOIN user_roles ON user_roles.id = users.user_role_id WHERE users.id = '$id'";
+		$query = $conn->query($sql);
+
+		$result = $query->fetch_assoc();
+		$name = $result['firstname'].' '.$result['lastname'];
+		$role = ucfirst($result['role']);
+	}
+?>
+
 <div id="sidebar">
 	<div class="inner">
 
@@ -9,8 +22,13 @@
 		</section>
 
 		<div align="center">
-			<img src="uploads/476288.jpg" style="width: 220px; height: auto; border-radius: 100%">
+			<img src="images/RS autocar centre model 2.2.jpg" style="width: 175px; height: auto; border-radius: 100%">
 		</div>
+
+		<ul class="contact">
+			<li class="fa-circle"><?php echo $name; ?></li>
+			<li class="fa-gear"><?php echo $role; ?></li>
+		</ul>
 
 		<!-- Menu -->
 		<nav id="menu">
@@ -32,6 +50,7 @@
 					<ul>
 						<li><a href="overview_cars.php">Auto's overzicht</a></li>
 						<li><a href="overview_car_models.php">Auto modellen</a></li>
+						<li><a href="overview_towed_cars.php">Overzicht gesleepte auto's</a></li>
 					</ul>
 				</li>
 				<li>
@@ -64,13 +83,13 @@
 			</ul>
 		</section>
 
-		<!-- Footer --><!-- 
+		<!-- Footer -->
 		<footer id="footer">
 			<p class="copyright">&copy; RS Auto Werkplaats Web App. 
 			<br>All rights reserved. 
 				<br>
 			Developed by: <a>Timothy Pocorni</a>,  <a>Sheldon Hupsel</a>, <a>Agon Emanuel</a> & <a>Rivaldo Vola</a>.</p>
-		</footer> -->
+		</footer>
 
 	</div>
 </div>

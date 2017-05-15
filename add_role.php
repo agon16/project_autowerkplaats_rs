@@ -55,9 +55,10 @@
 								<div class="12u 12u$(xsmall)">
 									<div class="select-wrapper">
 										<select name="level" id="level">
-											<option value="0">- Rol -</option>
+											<option value="0">- Level -</option>
 											<option value="1">Level 1 - Beheerder</option>
 											<option value="2">Level 2 - Normaal</option>
+											<option value="3">Level 3 - Minimaal</option>
 										</select>
 									</div>
 								</div>
