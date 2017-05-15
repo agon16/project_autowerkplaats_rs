@@ -12,6 +12,8 @@
 		<link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/my_css.css" />
+		<link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<script type="text/javascript">
 	window.onload = function() {
 		var chart = new CanvasJS.Chart("chartContainer", {

@@ -14,7 +14,7 @@
 				<h2>Menu</h2>
 			</header>
 			<ul>
-				<li><a href="#">Dashboard</a></li>
+				<li><a href="index.php">Dashboard</a></li>
 				<li><a href="overview_activities.php">Werkzaamheden</a></li>
 				<li>
 					<span class="opener">Autokeuringen</span>
