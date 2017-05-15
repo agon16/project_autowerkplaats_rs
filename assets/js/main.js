@@ -303,6 +303,29 @@ $(function() {
 	});
 });
 
+/**
+* Password verify
+*/
+$(function() {
+	$('#password1').on('keyup', function() {
+		if($('#password2').val() == $('#password1').val()) {
+			$('.special').removeClass('disabled', '');
+		} else {
+			$('.special').addClass('disabled', '');
+		}
+	});
+});
+
+$(function() {
+	$('#password2').on('keyup', function() {
+		if($('#password2').val() == $('#password1').val()) {
+			$('.special').removeClass('disabled', '');
+		} else {
+			$('.special').addClass('disabled', '');
+		}
+	});
+});
+
 var remove = {
 	user: function(id, user) {
 		swal({
@@ -383,7 +406,49 @@ var remove = {
 		    role+' is verwijderd.',
 		    'success',
 		    setTimeout(function() {
-		    	window.location = 'delete/delete_company.php?id='+id;
+		    	window.location = 'delete/delete_role.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	car_model: function(id, car_model) {
+		swal({
+		  title: 'Bent u zeker dat u de '+car_model+' model wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    car_model+' is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_car_model.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	activity: function(id, activity) {
+		swal({
+		  title: 'Bent u zeker dat u de '+activity+' activiteit wilt verwijderen?',
+		  text: "Deze actie kunnen u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    activity+' activiteit is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_activity.php?id='+id;
 		    }, 650)
 		  )
 		})

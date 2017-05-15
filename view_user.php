@@ -42,6 +42,8 @@
 					<div align="center"><h2>Gebruiker details</h2></div>
 				</header>
 
+				<a href="overview_activities_user.php?id=<?php echo $id; ?>" class="button special">Gebruiker's werkzaamheden</a>
+
 				<!-- Content -->
 				<section id="banner">
 					<div class="content">

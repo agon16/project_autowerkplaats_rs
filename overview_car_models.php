@@ -1,10 +1,18 @@
 <?php
+	session_start();
+
 	require 'includes/head.php';
 	require 'backend/db.php';
 
 	$style = "";
-	$columns = array('firstname', 'lastname', 'address', 'email', 'phone');
-	$columns_view = array('Voornaam', 'Achternaam', 'Adres', 'Email', 'Tel. nummer');
+	$columns = array('brand', 'model', 'manufactured_date');
+	$columns_view = array('Merk', 'Model', 'Bouwjaar');
+
+	if(isset($_SESSION['message'])) {
+		$message = '<div class="box"><p>'.$_SESSION['message'].'</p></div>';
+	} else {
+		$message = '';
+	}
 
 ?>
 <!-- Wrapper -->
@@ -22,7 +30,7 @@
 				<!-- Content -->
 					<section>
 						<header class="main">
-							<h1>Overzicht klanten</h1>
+							<h1>Overzicht auto modellen</h1>
 						</header>
 
 						<!-- Content -->
@@ -40,7 +48,7 @@
 										<div class="3u 12u$(xsmall)">
 											<div class="select-wrapper">
 												<select name="column" id="column">
-													<option value="none">- Filteren op -</option>
+													<option value="">- Filteren op -</option>
 													<?php
 														for ($i=0; $i < count($columns_view); $i++) { 
 															echo '<option value="'.$i.'">'.ucfirst($columns_view[$i]).'</option>';
@@ -55,81 +63,76 @@
 									</div>
 								</form>
 
+								<a href="add_car_model.php" class="button special">Auto model toevoegen</a>
+									<br><br>
+
 								<div class="table-wrapper">
 									<table class="alt">
 										<thead id="thead">
 											<tr>
-												<th>Voornaam</th>
-												<th>Achternaam</th>
-												<th>Adres</th>
-												<th>Email</th>
-												<th>Tel. nummer</th>
+												<th>Merk</th>
+												<th>Model</th>
+												<th>Bouwjaar</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											
 						<?php
-							if( isset($_POST['searchTerm']) && !empty($_POST['term']) && $_POST['column'] != "none") {
+							if( isset($_POST['searchTerm']) && !empty($_POST['term']) && isset($_POST['column'])) {
 								$term = $_POST['term'];
 								$column = $_POST['column'];
 								$column = $columns[$column];
 
-								$sql = "SELECT * FROM persons WHERE $column LIKE '%$term%'";
+								$sql = "SELECT * FROM car_models WHERE $column LIKE '%$term%'";
 								$query = $conn->query($sql);
 
 								if($query->num_rows == 0) {
-									echo '<div class="box"><p>Foutmelding komt hierin. <b>Geen velden</b></p></div>';
+									echo '<div class="box"><p>Geen resultaten uit het <b>zoekterm</b>.</p></div>';
 									$style = 'none';
 								}
 
 								while ($result = $query->fetch_assoc()) {
 									$id = $result['id'];
-									$firstname = $result['firstname'];
-									$lastname = $result['lastname'];
-									$address = $result['address'];
-									$email = $result['email'];
-									$phone = $result['phone'];
-									$created_at = $result['created_at'];
+									$brand = $result['brand'];
+									$model = $result['model'];
+									$manufactured_date = $result['manufactured_date'];
 
-								?>
+						?>
 
 									<tr>
-										<td><?php echo $firstname; ?></td>
-										<td><?php echo $lastname; ?></td>
-										<td><?php echo $address; ?></td>
-										<td><?php echo $email; ?></td>
-										<td><?php echo $phone; ?></td>
+										<td><?php echo $brand; ?></td>
+										<td><?php echo $model; ?></td>
+										<td><?php echo $manufactured_date; ?></td>
+										<td><a href="edit_car_model.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bewerken</a><a style="margin-left: 20px;" onclick="remove.car_model('<?php echo $id; ?>','<?php echo $brand.' '.$model.' '.$manufactured_date; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 
 						<?php
 								}
 							} else {
-								$sql = "SELECT persons.*, cars.id AS id FROM persons INNER JOIN cars ON cars.person_id = persons.id";
+								$sql = "SELECT * FROM car_models";
 								$query = $conn->query($sql);
 
 								while ($result = $query->fetch_assoc()) {
 									$id = $result['id'];
-									$firstname = $result['firstname'];
-									$lastname = $result['lastname'];
-									$address = $result['address'];
-									$email = $result['email'];
-									$phone = $result['phone'];
-									$created_at = $result['created_at'];
+									$brand = $result['brand'];
+									$model = $result['model'];
+									$manufactured_date = $result['manufactured_date'];
 
 								?>
 
 									<tr>
-										<td><?php echo $firstname; ?></td>
-										<td><?php echo $lastname; ?></td>
-										<td><?php echo $address; ?></td>
-										<td><?php echo $email; ?></td>
-										<td><?php echo $phone; ?></td>
-										<td><a href="view_car.php?id=<?php echo $id; ?>">Auto details</a></td>
+										<td><?php echo $brand; ?></td>
+										<td><?php echo $model; ?></td>
+										<td><?php echo $manufactured_date; ?></td>
+										<td><a href="edit_car_model.php?id=<?php echo $id; ?>" class="button special icon fa-circle">Bewerken</a><a style="margin-left: 20px;" onclick="remove.car_model('<?php echo $id; ?>','<?php echo $brand.' '.$model.' '.$manufactured_date; ?>')" class="button icon fa-times"></a></td>
 									</tr>
 
 						<?php
 									}
 							}
+
+							echo $message;
 						?>
 
 										</tbody>
@@ -156,4 +159,5 @@
 
 <?php
 	require 'includes/foot.php';
+	unset($_SESSION['message']);
 ?>

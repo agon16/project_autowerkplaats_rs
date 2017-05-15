@@ -50,7 +50,7 @@
 										<tbody>
 											
 											<?php
-												$sql = "SELECT * FROM users INNER JOIN user_roles ON users.user_role_id = user_roles.id WHERE users.user_role_id > 0";
+												$sql = "SELECT users.*, user_roles.role FROM users INNER JOIN user_roles ON users.user_role_id = user_roles.id WHERE users.user_role_id > 0";
 												$query = $conn->query($sql);
 
 												while ($result = $query->fetch_assoc()) {

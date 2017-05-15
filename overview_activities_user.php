@@ -2,6 +2,19 @@
 	require 'includes/head.php';
 	require 'backend/db.php';
 
+	if(!isset($_GET['id'])) {
+		exit(); // Cancel loading page
+	}
+
+	$id = $_GET['id'];
+
+	$sql_user = "SELECT * FROM users WHERE id = '$id'";
+	$query_user = $conn->query($sql_user);
+
+	while ($result = $query_user->fetch_assoc()) {
+		$fullname = $result['firstname'].' '.$result['lastname'];
+	}
+
 	// $style = 'none';
 
 ?>
@@ -20,7 +33,7 @@
 				<!-- Content -->
 					<section>
 						<header class="main">
-							<h1>Werkzaamheden</h1>
+							<h1>Werkzaamheden van <?php echo $fullname; ?></h1>
 						</header>
 
 						<!-- Content -->
@@ -55,68 +68,49 @@
 												<th>Beschrijving</th>
 												<th>Geregistreerd door</th>
 												<th>Tijd geregistreerd</th>
-												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 								<?php
-									if(isset($_POST['date_range']) && !empty($_POST['date1']) && !empty($_POST['date2'])) {
+									if(isset($_POST['date_range'])) {
 										$date1 = $_POST['date1'];
 										$date2 = $_POST['date2'];
 
-										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id WHERE activities.created_at BETWEEN '$date1' AND '$date2'";
+										$sql = "SELECT * FROM activities INNER JOIN users ON users.id = activities.user_id WHERE activities.created_at BETWEEN '$date1' AND '$date2' AND users.id = '$id'";
 										$query = $conn->query($sql);
 
 										while ($result = $query->fetch_assoc()) {
-											$id = $result['id'];
 											$topic = $result['topic'];
 											$description = $result['description'];
 											$fullname = $result['firstname'].' '.$result['lastname'];
 											$created_at = $result['created_at'];
-
-											if(strlen($description) > 55) {
-												$description = substr($description, 0, 55);
-												$dots = "...";
-											} else {
-												$dots = "";
-											}
 								?>
 
 											<tr>
 												<td><?php echo $topic; ?></td>
-												<td><?php echo $description.$dots; ?></td>
+												<td><?php echo $description; ?></td>
 												<td><?php echo $fullname; ?></td>
 												<td><?php echo $created_at; ?></td>
-												<td><a href="view_activity.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.activity('<?php echo $id; ?>', '<?php echo $topic; ?>')" class="button icon fa-times"></a></td>
 											</tr>
 
 								<?php
 										}
 									} else {
-										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id";
+										$sql = "SELECT * FROM activities INNER JOIN users ON users.id = activities.user_id AND users.id = '$id'";
 										$query = $conn->query($sql);
 
 										while ($result = $query->fetch_assoc()) {
-											$id = $result['id'];
 											$topic = $result['topic'];
 											$description = $result['description'];
 											$fullname = $result['firstname'].' '.$result['lastname'];
 											$created_at = $result['created_at'];
-
-											if(strlen($description) > 55) {
-												$description = substr($description, 0, 55);
-												$dots = "...";
-											} else {
-												$dots = "";
-											}
 										?>
 
 											<tr>
 												<td><?php echo $topic; ?></td>
-												<td><?php echo $description.$dots; ?></td>
+												<td><?php echo $description; ?></td>
 												<td><?php echo $fullname; ?></td>
 												<td><?php echo $created_at; ?></td>
-												<td><a href="view_activity.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.activity('<?php echo $id; ?>', '<?php echo $topic; ?>')" class="button icon fa-times"></a></td>
 											</tr>
 
 								<?php

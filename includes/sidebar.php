@@ -8,6 +8,10 @@
 			</form>
 		</section>
 
+		<div align="center">
+			<img src="uploads/476288.jpg" style="width: 220px; height: auto; border-radius: 100%">
+		</div>
+
 		<!-- Menu -->
 		<nav id="menu">
 			<header class="major">
@@ -27,7 +31,7 @@
 					<span class="opener">Auto's</span>
 					<ul>
 						<li><a href="overview_cars.php">Auto's overzicht</a></li>
-						<li><a href="#">Auto modellen</a></li>
+						<li><a href="overview_car_models.php">Auto modellen</a></li>
 					</ul>
 				</li>
 				<li>
@@ -36,8 +40,10 @@
 						<li><a href="overview_users.php">Medewerkers overzicht</a></li>
 						<li><a href="add_user.php">Medewerker toevoegen</a></li>
 						<li><a href="overview_roles.php">Rollen</a></li>
+						<li><a href="edit_profile.php">Profiel bewerken</a></li>
 					</ul>
 				</li>
+				<li><a href="overview_clients.php">Klanten</a></li>
 				<li><a href="#">Informeren</a></li>
 				<li><a href="overview_companies.php">Bedrijven</a></li>
 				<li><a href="overview_logs.php">Logs</a></li>
