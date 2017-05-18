@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -104,7 +105,7 @@
 						<?php
 								}
 							} else {
-								$sql = "SELECT persons.*, cars.id AS id FROM persons INNER JOIN cars ON cars.person_id = persons.id";
+								$sql = "SELECT persons.*, cars.id AS id FROM persons LEFT JOIN cars ON cars.person_id = persons.id";
 								$query = $conn->query($sql);
 
 								while ($result = $query->fetch_assoc()) {
@@ -124,7 +125,14 @@
 										<td><?php echo $address; ?></td>
 										<td><?php echo $email; ?></td>
 										<td><?php echo $phone; ?></td>
-										<td><a href="view_car.php?id=<?php echo $id; ?>">Auto details</a></td>
+										<?php
+											if($id > 0) {
+												echo '<td><a href="view_car.php?id='.$id.'">Auto details</a></td>';
+											} else {
+												echo '<td><o>Geen auto</p></td>';
+											}
+										?>
+										
 									</tr>
 
 						<?php

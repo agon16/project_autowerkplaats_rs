@@ -43,14 +43,14 @@
 												<th>Voornaam</th>
 												<th>Email</th>
 												<th>Adres</th>
-												<th>Tel. nummer</th>
+												<th>Beschikbaar</th>
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											
 											<?php
-												$sql = "SELECT users.*, user_roles.role FROM users INNER JOIN user_roles ON users.user_role_id = user_roles.id WHERE users.user_role_id > 0";
+												$sql = "SELECT users.*, user_roles.role FROM users INNER JOIN user_roles ON users.user_role_id = user_roles.id WHERE active = 1";
 												$query = $conn->query($sql);
 
 												while ($result = $query->fetch_assoc()) {
@@ -60,8 +60,13 @@
 													$lastname = $result['lastname'];
 													$email = $result['email'];
 													$address = $result['address'];
-													$phone = $result['phone'];
+													$busy = $result['busy'];
 
+													if($busy == "yes") {
+														$busy = "Nee";
+													} else if($busy == "no") {
+														$busy = "Ja";
+													}
 											?>
 
 											<tr>
@@ -70,7 +75,7 @@
 												<td><?php echo $firstname; ?></td>
 												<td><?php echo $email; ?></td>
 												<td><?php echo $address; ?></td>
-												<td><?php echo $phone; ?></td>
+												<td><?php echo $busy; ?></td>
 												<td><a href="view_user.php?id=<?php echo $id; ?>" class="button icon fa-circle">Bekijken</a><a style="margin-left: 20px;" onclick="remove.user('<?php echo $id; ?>', '<?php echo $firstname.' '.$lastname; ?>')" class="button icon fa-times"></a></td>
 											</tr>
 

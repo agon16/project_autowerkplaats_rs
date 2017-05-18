@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -14,8 +15,6 @@
 	while ($result = $query_user->fetch_assoc()) {
 		$fullname = $result['firstname'].' '.$result['lastname'];
 	}
-
-	// $style = 'none';
 
 ?>
 <!-- Wrapper -->

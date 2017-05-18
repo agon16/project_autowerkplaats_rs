@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 ?>
@@ -17,7 +18,7 @@
 				<!-- Content -->
 					<section>
 						<header class="main">
-							<h1>Autokeuringen</h1>
+							<h1>Recente autokeuringen</h1>
 						</header>
 
 						<!-- Content -->
@@ -50,46 +51,44 @@
 									</div>
 								</form>
 
+								<a href="add_inspection.php" class="button">Auto keuring toevoegen</a>
+									<br><br>
+
 								<div class="table-wrapper">
 									<table class="alt">
 										<thead>
 											<tr>
-												<th>Gekeurd</th>
-												<th>Voornaam</th>
-												<th>Achternaam</th>
-												<th>Merk</th>
-												<th>Model</th>
-												<th>Action</th>
+												<th>Klant</th>
+												<th>Auto</th>
+												<th>Kenteken nr.</th>
+												<th>Gekeurd op</th>
+												<th>Keuring gepland</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											
 											<?php
-												$sql = "SELECT * FROM cars INNER JOIN users ON users.id = cars.user_id";
+												$sql = "SELECT * FROM v_inspected_cars WHERE inspection_due > CURDATE()";
 												$query = $conn->query($sql);
 
 												while ($result = $query->fetch_assoc()) {
-													$inspected = $result['inspected'];
-													$firstname = $result['firstname'];
-													$lastname = $result['lastname'];
-													$brand = $result['brand'];
-													$model = $result['model'];
-													
-													if($inspected == 0) {
-														$inspected = "Nee";
-													} else if($inspected == 0) {
-														$inspected = "Ja";
-													}
+													$car_id = $result['id'];
+													$fullname = $result['firstname'].' '.$result['lastname'];
+													$car_brand = $result['brand'].' '.$result['model'];
+													$license_plate = $result['license_plate'];
+													$inspected_at = $result['inspected_at'];
+													$inspection_due = $result['inspection_due'];
 
 													?>
 
 											<tr>
-												<td><?php echo $inspected; ?></td>
-												<td><?php echo $firstname; ?></td>
-												<td><?php echo $lastname; ?></td>
-												<td><?php echo $brand; ?></td>
-												<td><?php echo $model; ?></td>
-												<td><a class="button special icon fa-circle">Bekijken</a></td>
+												<td><?php echo $fullname; ?></td>
+												<td><?php echo $car_brand; ?></td>
+												<td><?php echo $license_plate; ?></td>
+												<td><?php echo $inspected_at; ?></td>
+												<td><?php echo $inspection_due; ?></td>
+												<td><a href="overview_all_inspections.php?id=<?php echo $car_id; ?>" class="button special icon fa-circle">Alle keuringen</a><a style="margin-left: 20px;" href="overview_all_inspections.php?id=<?php echo $car_id; ?>" class="button special">Herkeuren</a></td>
 											</tr>
 
 													<?php

@@ -24,8 +24,9 @@
 				break;
 		}
 
+	} else {
+		$page = 'overview_car_models.php';
 	}
-
 
 
 	/**

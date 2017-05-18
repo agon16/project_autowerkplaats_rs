@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -11,7 +12,7 @@
 		$level = $_POST['level'];
 		$role = $_POST['role'];
 
-		$sql = "INSERT INTO user_role (level, role) VALUES ('$level', '$role')";
+		$sql = "INSERT INTO user_roles (level, role) VALUES ('$level', '$role')";
 		if($conn->query($sql)) {
 			header("Location: overview_roles.php");
 		} else {

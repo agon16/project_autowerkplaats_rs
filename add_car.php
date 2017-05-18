@@ -5,6 +5,25 @@
 
 	$box = "";
 
+	/**
+	* Verify if there is a cache available from the previous page
+	*/
+	if(isset($_SESSION['cache_activity'])) {
+
+		switch ($_SESSION['cache_activity']) {
+			case 1:
+				$page = 'add_activity.php';
+				break;
+			
+			default:
+				$page = 'overview_cars.php';
+				break;
+		}
+
+	} else {
+		$page = 'overview_cars.php';
+	}
+
 	if(isset($_SESSION['cache'])) {
 		$person_id 	= $_SESSION['person_id'];
 		$license_plate = $_SESSION['license_plate'];
@@ -48,10 +67,6 @@
 
 		header("Location: add_company.php"); // Go to page
 
-	} else if(isset($_POST['register_person'])) {
-
-		header("Location: add_person.php"); // Go to page
-
 	} else 
 
 	/**
@@ -66,13 +81,42 @@
 		$sachi = $_POST['sachi'];
 		$car_model = $_POST['car_model'];
 		$company = $_POST['company'];
+		$target_dir = 'uploads/cars/';
+		$image = basename($_FILES["photo"]["name"]);
 
-		$sql = "INSERT INTO cars (person_id, car_model_id, sachi_number, license_plate, company_id) VALUES ('$new_person_id', '$car_model', '$sachi', '$license_plate', '$company')";
+		$sql = "INSERT INTO cars (person_id, car_model_id, sachi_number, license_plate, image, company_id) VALUES ('$person_id', '$car_model', '$sachi', '$license_plate', '$target_dir$image', '$company')";
 
 		if($conn->query($sql)) {
-			header("Location: overview_cars.php");
+			header("Location: ".$page);
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
+		}
+
+		$target_file = $target_dir . $image;
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Check if image file is a actual image or fake image
+		if(isset($_POST["submit"])) {
+		    $check = getimagesize($_FILES["photo"]["tmp_name"]);
+		    if($check !== false) {
+		        // echo "File is an image - " . $check["mime"] . ".";
+		        $uploadOk = 1;
+		    } else {
+		        // echo "File is not an image.";
+		        $uploadOk = 0;
+		    }
+		}
+		// Check if file already exists
+		if (file_exists($target_file)) {
+		    // echo "Sorry, file already exists.";
+		    $uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+		    // echo "Sorry, your file was not uploaded.";
+		// if everything is ok, try to upload file
+		} else {
+		    move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file);
 		}
 
 	} // End isset
@@ -95,18 +139,18 @@
 
 				<!-- Content -->
 				<div class="row 200%">
-					<div class="4u 12u$(medium)">
+					<div class="3u 12u$(medium)">
 						<p style="color: white">.</p>
 					</div>
-					<div class="4u 12u$(medium)">
+					<div class="6u 12u$(medium)">
 
 						<!-- Login form -->
-						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 							<div align="center"><h2>Persoons gegevens</h2></div> <!-- Header -->
 							<div class="row uniform">
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="car_model" id="car_model" value="<?php echo $car_model; ?>">
+										<select name="person_id" id="person_id" value="<?php echo $person_id; ?>" required="">
 											<option value="">- Klant -</option>
 											<?php
 												$sql = "SELECT id, firstname, lastname FROM persons";
@@ -123,7 +167,7 @@
 								<!-- Break -->
 								<div class="12u$">
 									<ul class="actions">
-										<li><button type="submit" name="register_person" class="button">Klant registreren</button></li>
+										<li><button onclick="window.location='add_person.php';" class="button">Klant registreren</button></li>
 									</ul>
 								</div>
 							</div>
@@ -133,12 +177,12 @@
 							<div align="center"><h2>Auto gegevens</h2></div> <!-- Header -->
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="license_plate" id="license_plate" value="<?php echo $license_plate; ?>" placeholder="Plaat nummer" type="text">
+									<input name="license_plate" id="license_plate" value="<?php echo $license_plate; ?>" placeholder="Plaat nummer" type="text" required="">
 								</div>
 
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="car_model" id="car_model" value="<?php echo $car_model; ?>">
+										<select name="car_model" id="car_model" required=""> value="<?php echo $car_model; ?>">
 											<option value="">- Auto model -</option>
 											<?php
 												$sql = "SELECT id, model, brand FROM car_models";
@@ -159,7 +203,7 @@
 								<!-- Break -->
 								<div class="12u$">
 									<ul class="actions">
-										<li><button type="submit" name="register_car" class="button">Auto model registreren</button></li>
+										<li><button type="submit" name="register_car" id="register_car" class="button">Auto model registreren</button></li>
 									</ul>
 								</div>
 							</div>
@@ -171,7 +215,7 @@
 
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="company" id="company" value="<?php echo $company; ?>">
+										<select name="company" id="company" required=""> value="<?php echo $company; ?>">
 											<option value="">- Bedrijf -</option>
 											<option value="0">### Geen bedrijfseigendom ###</option>
 											<?php
@@ -189,7 +233,7 @@
 								<!-- Break -->
 								<div class="12u$">
 									<ul class="actions">
-										<li><input value="Bedrijf registreren" type="submit" name="register_company"></li>
+										<li><input value="Bedrijf registreren" type="submit" name="register_company" id="register_company"></li>
 									</ul>
 								</div>
 
@@ -197,9 +241,11 @@
 								<div class="12u$">
 									<ul class="actions">
 										<li><input value="Toevoegen" class="special" name="add" type="submit"></li>
+										<li><input id="btnUpload" class="button" type="button" value="Foto uploaden"></li>
 										<li><a class="button" onclick="history.go(-1);">Terug</a></li>
 									</ul>
 								</div>
+								<input style="display: none;" name="photo" type="file">
 							</div>
 						</form>
 

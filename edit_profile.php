@@ -25,8 +25,6 @@
 		$password1 = sha1($_POST['password1']);
 		$password2 = sha1($_POST['password2']);
 
-		echo $image;
-
 		if($password1 == "da39a3ee5e6b4b0d3255bfef95601890afd80709" || $password2 == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
 			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$image' WHERE id = '$id'";
 		} else {
@@ -42,21 +40,21 @@
 		if(isset($_POST["submit"])) {
 		    $check = getimagesize($_FILES["photo"]["tmp_name"]);
 		    if($check !== false) {
-		        echo "File is an image - " . $check["mime"] . ".";
+		        // echo "File is an image - " . $check["mime"] . ".";
 		        $uploadOk = 1;
 		    } else {
-		        echo "File is not an image.";
+		        // echo "File is not an image.";
 		        $uploadOk = 0;
 		    }
 		}
 		// Check if file already exists
 		if (file_exists($target_file)) {
-		    echo "Sorry, file already exists.";
+		    // echo "Sorry, file already exists.";
 		    $uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
-		    echo "Sorry, your file was not uploaded.";
+		    // echo "Sorry, your file was not uploaded.";
 		// if everything is ok, try to upload file
 		} else {
 		    move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file);

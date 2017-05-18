@@ -2826,7 +2826,7 @@
 					}
 
 						ul.pagination li > .page.active:hover {
-							background-color: #f67878;
+							background-color: #5E9AD5;
 						}
 
 						ul.pagination li > .page.active:active {
@@ -3037,7 +3037,7 @@
 			input[type="button"].special:hover,
 			button.special:hover,
 			.button.special:hover {
-				background-color: #f67878;
+				background-color: #D1933A;
 			}
 
 			input[type="submit"].special:active,

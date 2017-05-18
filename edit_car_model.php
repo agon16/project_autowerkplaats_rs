@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -16,9 +17,10 @@
 	if(isset($_POST['update'])) {
 		$brand = $_POST['brand'];
 		$model = $_POST['model'];
+		$number_persons = $_POST['number_persons'];
 		$manufactured_date = $_POST['manufactured_date'];
 
-		$sql = "UPDATE car_models SET brand = '$brand', model = '$model', manufactured_date = '$manufactured_date' WHERE id = '$id'";
+		$sql = "UPDATE car_models SET brand = '$brand', model = '$model', number_persons = '$number_persons', manufactured_date = '$manufactured_date' WHERE id = '$id'";
 		if($conn->query($sql)) {
 			// echo "OK";
 			header("Location: overview_car_models.php");
@@ -38,6 +40,7 @@
 		while ($result = $query->fetch_assoc()) {
 			$brand = $result['brand'];
 			$model = $result['model'];
+			$number_persons = $result['number_persons'];
 			$manufactured_date = $result['manufactured_date'];
 		}
 	}
@@ -77,6 +80,9 @@
 								</div>
 								<div class="12u 12u$(xsmall)">
 									<input name="model" id="model" value="<?php echo $model; ?>" placeholder="Email" type="text">
+								</div>
+								<div class="12u 12u$(xsmall)">
+									<input name="number_persons" id="number_persons" value="<?php echo $number_persons; ?>" placeholder="Aantal personen" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
 									<input name="manufactured_date" id="manufactured_date" value="<?php echo $manufactured_date; ?>" placeholder="Email" type="text">

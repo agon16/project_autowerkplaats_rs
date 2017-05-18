@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -10,7 +11,8 @@
 
 	$sql = "SELECT activities.*, users.firstname AS u_fname, users.lastname AS u_lname, persons.firstname AS p_fname, persons.lastname AS p_lname FROM activities 
 			INNER JOIN users ON users.id = activities.user_id 
-			INNER JOIN persons ON persons.id = activities.person_id 
+			INNER JOIN cars ON cars.id = activities.car_id 
+			INNER JOIN persons ON persons.id = cars.person_id 
 			WHERE activities.id = '$id'";
 	$query = $conn->query($sql);
 

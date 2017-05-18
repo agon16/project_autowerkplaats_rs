@@ -36,13 +36,13 @@
 				<h2>Menu</h2>
 			</header>
 			<ul>
-				<li><a href="index.php">Dashboard</a></li>
+				<li><a href="dashboard.php">Dashboard</a></li>
 				<li><a href="overview_activities.php">Werkzaamheden</a></li>
 				<li>
 					<span class="opener">Autokeuringen</span>
 					<ul>
 						<li><a href="overview_inspections.php">Recente autokeuringen</a></li>
-						<li><a href="#">Vervallen autokeuringen</a></li>
+						<li><a href="overview_not_inspected.php">Vervallen autokeuringen</a></li>
 					</ul>
 				</li>
 				<li>
@@ -63,10 +63,10 @@
 					</ul>
 				</li>
 				<li><a href="overview_clients.php">Klanten</a></li>
-				<li><a href="#">Informeren</a></li>
+				<li><a href="add_notification.php">Informeren</a></li>
 				<li><a href="overview_companies.php">Bedrijven</a></li>
 				<li><a href="overview_logs.php">Logs</a></li>
-				<li><a href="login.php">Uitloggen</a></li>
+				<li><a href="index.php">Uitloggen</a></li>
 			</ul>
 		</nav>
 

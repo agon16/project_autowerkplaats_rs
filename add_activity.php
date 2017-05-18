@@ -1,23 +1,42 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
 	$box = "";
 
+	$user_id = $_SESSION['userID'];
+
+	if(isset($_SESSION['cache_activity'])) {
+		$topic 	= $_SESSION['topic'];
+		$description = $_SESSION['description'];
+
+		unset($_SESSION['cache_activity']);
+	} else {
+		$topic 	= "";
+		$description = "";
+	}
+
 	/**
 	* Add activity
 	*/
 	if(isset($_POST['add'])) {
-		$user_id = $_POST['user_id'];
 		$topic = $_POST['topic'];
 		$description = $_POST['description'];
+		$car_id = $_POST['car_id'];
 
-		$sql = "INSERT INTO users (user_id, topic, description) VALUES ('$user_id', '$topic', '$description')";
+		$sql = "INSERT INTO activities (user_id, topic, description, car_id, created_at) VALUES ('$user_id', '$topic', '$description', '$car_id', NOW())";
 		if($conn->query($sql)) {
-			echo "OK";
+			header("Location: overview_activities.php");
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
+	} else if(isset($_POST['register_car'])) {
+		$_SESSION['topic'] = $_POST['topic'];
+		$_SESSION['description'] = $_POST['description'];
+
+		$_SESSION['cache_activity'] = 1;
+		header("Location: add_car.php");
 	}
 
 ?>
@@ -29,9 +48,9 @@
 		<div class="inner">
 
 			<!-- Header -->
-				<?php
-					require 'includes/header.php';
-				?>
+			<?php
+				require 'includes/header.php';
+			?>
 
 			<!-- Content -->
 			<section>
@@ -50,14 +69,14 @@
 						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="topic" id="topic" value="" placeholder="Onderwerp" type="text">
+									<input name="topic" id="topic" value="<?php echo $topic; ?>" placeholder="Onderwerp" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
-									<input name="description" id="description" value="" placeholder="Beschrijving" type="text">
+									<input name="description" id="description" value="<?php echo $description; ?>" placeholder="Beschrijving" type="text">
 								</div>
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="user_role" id="user_role">
+										<select name="car_id" id="car_id" required="">
 											<option value="">- Welke auto -</option>
 											<?php
 												$sql = "SELECT persons.firstname, persons.lastname, cars.id, license_plate, car_models.brand, car_models.model FROM cars 
@@ -73,6 +92,13 @@
 											?>
 										</select>
 									</div>
+								</div>
+
+								<!-- Break -->
+								<div class="12u$">
+									<ul class="actions">
+										<li><button class="button" type="submit" name="register_car" id="werkzaamheden_car">Auto registreren</button></li>
+									</ul>
 								</div>
 
 								<!-- Break -->

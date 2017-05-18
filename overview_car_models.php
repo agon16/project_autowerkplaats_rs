@@ -8,12 +8,6 @@
 	$columns = array('brand', 'model', 'manufactured_date');
 	$columns_view = array('Merk', 'Model', 'Bouwjaar');
 
-	if(isset($_SESSION['message'])) {
-		$message = '<div class="box"><p>'.$_SESSION['message'].'</p></div>';
-	} else {
-		$message = '';
-	}
-
 ?>
 <!-- Wrapper -->
 <div id="wrapper">
@@ -132,7 +126,6 @@
 									}
 							}
 
-							echo $message;
 						?>
 
 										</tbody>
@@ -159,5 +152,4 @@
 
 <?php
 	require 'includes/foot.php';
-	unset($_SESSION['message']);
 ?>

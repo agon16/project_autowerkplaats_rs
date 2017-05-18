@@ -29,6 +29,25 @@
 
 	$box = "";
 
+	/**
+	* Verify if there is a cache available from the previous page
+	*/
+	if(isset($_SESSION['cache_activity'])) {
+
+		switch ($_SESSION['cache_activity']) {
+			case 1:
+				$page = 'add_activity.php';
+				break;
+			
+			default:
+				$page = 'overview_cars.php';
+				break;
+		}
+
+	} else {
+		$page = 'overview_cars.php';
+	}
+
 	if(isset($_POST['register_car'])) {
 		//Input person details
 		$_SESSION['firstname'] = $_POST['firstname'];
@@ -63,12 +82,7 @@
 		$_SESSION['cache'] = 2;
 
 		header("Location: add_company.php"); // Go to page
-	} else 
-
-	/**
-	* Add car
-	*/
-	if(isset($_POST['add'])) {
+	} else if(isset($_POST['add'])) { // Add person
 		//Input person details
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
@@ -90,7 +104,7 @@
 			$sql_cars = "INSERT INTO cars (person_id, car_model_id, sachi_number, license_plate, company_id) VALUES ('$new_person_id', '$car_model', '$sachi', '$license_plate', '$company')";
 
 			if($conn->query($sql_cars)) {
-				header("Location: overview_cars.php");
+				header("Location: ".$page);
 			} else {
 				$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 			}
@@ -127,23 +141,23 @@
 							<div align="center"><h2>Persoons gegevens</h2></div> <!-- Header -->
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="firstname" id="firstname" value="<?php echo $firstname; ?>" placeholder="Voornaam" type="text">
+									<input name="firstname" id="firstname" value="<?php echo $firstname; ?>" placeholder="Voornaam" type="text" required="">
 								</div>
 
 								<div class="12u 12u$(xsmall)">
-									<input name="lastname" id="lastname" value="<?php echo $lastname; ?>" placeholder="Achter" type="text">
+									<input name="lastname" id="lastname" value="<?php echo $lastname; ?>" placeholder="Achter" type="text" required="">
 								</div>
 
 								<div class="12u 12u$(xsmall)">
-									<input name="address" id="address" value="<?php echo $address; ?>" placeholder="Adres" type="text">
+									<input name="address" id="address" value="<?php echo $address; ?>" placeholder="Adres" type="text" required="">
 								</div>
 
 								<div class="12u 12u$(xsmall)">
-									<input name="email" id="email" value="<?php echo $email; ?>" placeholder="Email" type="text">
+									<input name="email" id="email" value="<?php echo $email; ?>" placeholder="Email" type="text" required="">
 								</div>
 
 								<div class="12u 12u$(xsmall)">
-									<input name="phone" id="phone" value="<?php echo $phone; ?>" placeholder="Tel. nummer" type="text">
+									<input name="phone" id="phone" value="<?php echo $phone; ?>" placeholder="Tel. nummer" type="text" required="">
 								</div>
 							</div>
 
@@ -152,12 +166,12 @@
 							<div align="center"><h2>Auto gegevens</h2></div> <!-- Header -->
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="license_plate" id="license_plate" value="<?php echo $license_plate; ?>" placeholder="Plaat nummer" type="text">
+									<input name="license_plate" id="license_plate" value="<?php echo $license_plate; ?>" placeholder="Plaat nummer" type="text" required="">
 								</div>
 
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="car_model" id="car_model" value="<?php echo $car_model; ?>">
+										<select name="car_model" required="" id="car_model" value="<?php echo $car_model; ?>">
 											<option value="">- Auto model -</option>
 											<?php
 												$sql = "SELECT id, model, brand FROM car_models";
@@ -172,13 +186,13 @@
 								</div>
 
 								<div class="12u 12u$(xsmall)">
-									<input name="sachi" id="sachi" value="<?php echo $sachi ?>;" placeholder="Sachi" type="text">
+									<input name="sachi" id="sachi" value="<?php echo $sachi; ?>" placeholder="Sachi" type="text" required="">
 								</div>
 
 								<!-- Break -->
 								<div class="12u$">
 									<ul class="actions">
-										<li><button type="submit" name="register_car" class="button">Auto model registreren</button></li>
+										<li><button type="submit" name="register_car" id="register_car" class="button">Auto model registreren</button></li>
 									</ul>
 								</div>
 							</div>
@@ -190,7 +204,7 @@
 
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="company" id="company" value="<?php echo $company; ?>">
+										<select name="company" id="company" required="" value="<?php echo $company; ?>">
 											<option value="">- Bedrijf -</option>
 											<option value="0">### Geen bedrijfseigendom ###</option>
 											<?php
@@ -208,7 +222,7 @@
 								<!-- Break -->
 								<div class="12u$">
 									<ul class="actions">
-										<li><input value="Bedrijf registreren" type="submit" name="register_company"></li>
+										<li><input value="Bedrijf registreren" required="" type="submit" name="register_company" id="register_company"></li>
 									</ul>
 								</div>
 

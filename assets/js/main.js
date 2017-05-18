@@ -285,16 +285,61 @@
 })(jQuery);
 
 /**
-* Page onload -> logo indicator
-*/
-
-
-/**
 * Disable character input on keypress
 */
 function numericOnly(event) {
 	return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 0 || event.charCode == 46;
 }
+
+/* Switch user's state -> busy or availabl;e */
+function state(id) {
+	$.post('backend/state.php', {id:id}, function() {
+		window.location = window.location.href;
+	});
+}
+
+/**
+* Login
+*/
+$(function() {
+	$('#formSubmit').submit(function(e) {
+		e.preventDefault();
+
+		var email = $('#email').val(),
+		password = $('#password').val();
+
+		$.post('backend/login.php', 
+			{
+				email: email,
+				password: password
+			}, function(data) {
+				data = JSON.parse(data);
+				if(data.result == 'true') {
+					startRotation();
+
+					$('.box').html('<p style="text-align: center;">U wordt ingelogd ...</p>');
+					$('.box').slideDown(500);
+
+					setTimeout(function() {
+						window.location = 'dashboard.php';
+					}, 2500);
+					
+				} else if(data.result == 'false') {
+					stopRotation();
+
+					$('.box').html('<p style="text-align: center;">Ga na dat alle velden juist zijn.</p>');
+					$('.box').slideDown(500);
+
+					setTimeout(function() {
+						$('.box').slideUp(500);
+					}, 3000);
+
+				} else {
+					alert("Some error");
+				}
+		});
+	});
+});
 
 /**
 * Datepicker
@@ -338,11 +383,63 @@ $(function() {
 	});
 });
 
+/**
+* jQuery rotation
+*/
+var startRotation = function (){
+  $("#border").rotate({
+    angle:0,
+    animateTo:24,
+    callback: startRotation,
+    easing: function (x,t,b,c,d) {
+      return c*(t/d)+b;
+    }
+  });
+}
+startRotation();
+
+var stopRotation = function (){
+  $("#border").rotate({
+    angle:0,
+    animateTo:0,
+    callback: stopRotation,
+    easing: function (x,t,b,c,d) {
+      return c*(t/d)+b;
+    }
+  });
+}
+stopRotation();
+
+/**
+* Werkzaamheden
+*/
+$('#werkzaamheden_car').click(function() {
+	$('#car_id').removeAttr('required');
+});
+
+/**
+* Add car
+*/
+$('#register_car').click(function() {
+	$('#person_id').removeAttr('required');
+	$('#license_plate').removeAttr('required');
+	$('#car_model').removeAttr('required');
+	$('#sachi').removeAttr('required');
+	$('#company').removeAttr('required');
+});
+$('#register_company').click(function() {
+	$('#person_id').removeAttr('required');
+	$('#license_plate').removeAttr('required');
+	$('#car_model').removeAttr('required');
+	$('#sachi').removeAttr('required');
+	$('#company').removeAttr('required');
+});
+
 var remove = {
 	user: function(id, user) {
 		swal({
 		  title: 'Bent u zeker dat u '+user+' wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -363,7 +460,7 @@ var remove = {
 	car: function(id, car) {
 		swal({
 		  title: 'Bent u zeker dat u '+car+' wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -384,7 +481,7 @@ var remove = {
 	company: function(id, company) {
 		swal({
 		  title: 'Bent u zeker dat u '+company+' wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -392,20 +489,31 @@ var remove = {
 		  confirmButtonText: 'Ja!',
 		  cancelButtonText: 'Nee!'
 		}).then(function () {
-		  swal(
-		    'Verwijderd!',
-		    company+' is verwijderd.',
-		    'success',
-		    setTimeout(function() {
-		    	window.location = 'delete/delete_company.php?id='+id;
-		    }, 650)
-		  )
+			$.post('delete/delete_company.php?id='+id, {id: id}, function(data) {
+		  	data = JSON.parse(data);
+		  	if(data.result == 1) {
+		  		swal(
+				    'Verwijderd!',
+		    		company+' is verwijderd.',
+				    'success',
+				    setTimeout(function() {
+				    	window.location = 'overview_companies.php';
+				    }, 650)
+			 	)
+		  	} else {
+		  		swal(
+				  'Melding',
+				  'Bedrijf mag alleen verwijderd tenzij het niet is geassocieerd met een geregistreerde auto.',
+				  'error'
+				)
+		  	}
+		  })
 		})
 	},
 	role: function(id, role) {
 		swal({
 		  title: 'Bent u zeker dat u de '+role+' rol wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -413,20 +521,31 @@ var remove = {
 		  confirmButtonText: 'Ja!',
 		  cancelButtonText: 'Nee!'
 		}).then(function () {
-		  swal(
-		    'Verwijderd!',
-		    role+' is verwijderd.',
-		    'success',
-		    setTimeout(function() {
-		    	window.location = 'delete/delete_role.php?id='+id;
-		    }, 650)
-		  )
+		  $.post('delete/delete_role.php?id='+id, {id: id}, function(data) {
+		  	data = JSON.parse(data);
+		  	if(data.result == 1) {
+		  		swal(
+				    'Verwijderd!',
+				    role+' is verwijderd.',
+				    'success',
+				    setTimeout(function() {
+				    	window.location = 'overview_roles.php';
+				    }, 650)
+			 	)
+		  	} else {
+		  		swal(
+				  'Melding',
+				  'Gebruiker rol mag alleen verwijderd tenzij het niet is geassocieerd met een registreerde gebruiker in het systeem.',
+				  'error'
+				)
+		  	}
+		  })
 		})
 	},
 	car_model: function(id, car_model) {
 		swal({
 		  title: 'Bent u zeker dat u de '+car_model+' model wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -434,20 +553,31 @@ var remove = {
 		  confirmButtonText: 'Ja!',
 		  cancelButtonText: 'Nee!'
 		}).then(function () {
-		  swal(
-		    'Verwijderd!',
-		    car_model+' is verwijderd.',
-		    'success',
-		    setTimeout(function() {
-		    	window.location = 'delete/delete_car_model.php?id='+id;
-		    }, 650)
-		  )
+		  $.post('delete/delete_car_model.php?id='+id, {id: id}, function(data) {
+		  	data = JSON.parse(data);
+		  	if(data.result == 1) {
+		  		swal(
+				    'Verwijderd!',
+				    car_model+' is verwijderd.',
+				    'success',
+				    setTimeout(function() {
+				    	window.location = 'overview_car_models.php';
+				    }, 650)
+			 	)
+		  	} else {
+		  		swal(
+				  'Melding',
+				  'Auto model mag alleen verwijderd tenzij het niet is geassocieerd met een geregistreerde auto.',
+				  'error'
+				)
+		  	}
+		  })
 		})
 	},
 	activity: function(id, activity) {
 		swal({
 		  title: 'Bent u zeker dat u de '+activity+' activiteit wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -468,7 +598,7 @@ var remove = {
 	towed_car: function(id) {
 		swal({
 		  title: 'Bent u zeker dat u deze sleep actie wilt verwijderen?',
-		  text: "Deze actie kunnen u niet ongedaan maken",
+		  text: "Deze actie kunt u niet ongedaan maken",
 		  type: 'warning',
 		  showCancelButton: true,
 		  confirmButtonColor: '#f0f0f0',
@@ -482,6 +612,27 @@ var remove = {
 		    'success',
 		    setTimeout(function() {
 		    	window.location = 'delete/delete_towed_car.php?id='+id;
+		    }, 650)
+		  )
+		})
+	},
+	inspected_car: function(id) {
+		swal({
+		  title: 'Bent u zeker dat u deze keuring data wilt verwijderen?',
+		  text: "Deze actie kunt u niet ongedaan maken",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#f0f0f0',
+		  cancelButtonColor: '#D67373',
+		  confirmButtonText: 'Ja!',
+		  cancelButtonText: 'Nee!'
+		}).then(function () {
+		  swal(
+		    'Verwijderd!',
+		    'Keuring data is verwijderd.',
+		    'success',
+		    setTimeout(function() {
+		    	window.location = 'delete/delete_inspection.php?id='+id;
 		    }, 650)
 		  )
 		})

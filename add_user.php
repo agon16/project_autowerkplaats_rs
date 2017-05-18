@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -14,17 +15,17 @@
 		$address = $_POST['address'];
 		$email = $_POST['email'];
 		$phone = $_POST['phone'];
+		$target_dir = 'uploads/cars/';
 		$image = basename($_FILES["photo"]["name"]);
 		$password = sha1($_POST['password']);
 
-		$sql = "INSERT INTO users (user_role_id, firstname, lastname, address, email, phone, image,  password) VALUES ('$user_role', '$firstname', '$lastname', '$address', '$email', '$phone', '$image', '$password')";
+		$sql = "INSERT INTO users (user_role_id, firstname, lastname, address, email, phone, image,  password) VALUES ('$user_role', '$firstname', '$lastname', '$address', '$email', '$phone', $target_dir$image', '$password')";
 		if($conn->query($sql)) {
 			header("Location: overview_users.php");
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
 
-		$target_dir = "uploads/";
 		$target_file = $target_dir . $image;
 		$uploadOk = 1;
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -84,23 +85,23 @@
 						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
-									<input name="firstname" id="firstname" value="" placeholder="Voornaam" type="text">
+									<input required="" name="firstname" id="firstname" value="" placeholder="Voornaam" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
-									<input name="lastname" id="lastname" value="" placeholder="Naam" type="text">
+									<input required="" name="lastname" id="lastname" value="" placeholder="Naam" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
-									<input name="email" id="email" value="" placeholder="Email" type="text">
+									<input required="" name="email" id="email" value="" placeholder="Email" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
-									<input name="address" id="address" value="" placeholder="Adres" type="text">
+									<input required="" name="address" id="address" value="" placeholder="Adres" type="text">
 								</div>
 								<div class="12u 12u$(xsmall)">
-									<input name="phone" id="phone" value="" placeholder="Tel. nummer" type="text">
+									<input required="" name="phone" id="phone" value="" placeholder="Tel. nummer" type="text">
 								</div>
 								<div class="12u$">
 									<div class="select-wrapper">
-										<select name="user_role" id="user_role">
+										<select required="" name="user_role" id="user_role">
 											<option value="">- Medewerker rol -</option>
 											<?php
 												$sql = "SELECT id, role FROM user_roles";
@@ -114,7 +115,7 @@
 									</div>
 								</div>
 								<div class="12u$ 12u$(xsmall)">
-									<input name="password" id="password" value="" placeholder="Password" type="password">
+									<input required="" name="password" id="password" value="" placeholder="Password" type="password">
 								</div>
 
 								<!-- Break -->

@@ -34,10 +34,10 @@
 								<form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 									<div class="row">
 										<div class="3u 12u$(xsmall)">
-											<input name="date1" class="datepicker" value="" placeholder="YYYY-MM-DD" type="text">
+											<input name="date1" onkeypress="numericOnly(event);" class="datepicker" value="" placeholder="YYYY-MM-DD" type="text">
 										</div>
 										<div class="3u 12u$(xsmall)">
-											<input name="date2" class="datepicker" value="" placeholder="YYYY-MM-DD" type="text">
+											<input name="date2" onkeypress="numericOnly(event);" class="datepicker" value="" placeholder="YYYY-MM-DD" type="text">
 										</div>
 										<div class="1u 12u$(xsmall)">
 											<button class="button" name="date_range" type="submit">Resultaten</button>
