@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -6,12 +7,12 @@
 		exit(); // Cancel loading page
 	}
 
-	$id = $_GET['id'];
+	$car_id = $_GET['id'];
 
 	$sql = "SELECT persons.*, cars.*, companies.name, car_models.brand, car_models.model, car_models.manufactured_date, car_models.number_persons FROM cars 
 	INNER JOIN persons ON cars.person_id = persons.id 
 	INNER JOIN car_models ON car_models.id = cars.car_model_id 
-	LEFT JOIN companies ON cars.company_id = companies.id WHERE cars.id = '$id'";
+	LEFT JOIN companies ON cars.company_id = companies.id WHERE cars.id = '$car_id'";
 	$query = $conn->query($sql);
 
 	if($query->num_rows == 0) {
@@ -26,6 +27,7 @@
 		$company = $result['company_id'];
 		$company_name = $result['name'];
 		$number_persons = $result['number_persons'];
+		$image = $result['image'];
 
 		if($company > 0) {
 			$company = $company_name;
@@ -64,13 +66,14 @@
 						<p style="font-size: 1.5em;""><b>Personen: </b><?php echo $number_persons; ?></p>
 					</div>
 					<span class="image object">
-						<img src="images/pic10.jpg" alt="">
+						<img src="<?php echo $image; ?>" alt="">
 					</span>
 
 				</section>
 
 				<button class="button" onclick="history.go(-1);">Terug</button>
-				<a href="edit_car.php?id=<?php echo $id; ?>" class="button special icon fa-edit">Bewerken</a>
+				<a href="view_car_portal.php?id=<?php echo $car_id; ?>" class="button special icon fa-desktop">Portal</a>
+				<a href="edit_car.php?id=<?php echo $car_id; ?>" class="button special icon fa-edit">Bewerken</a>
 
 			</section>
 

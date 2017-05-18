@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	require 'includes/head.php';
 	require 'backend/db.php';
 
@@ -21,6 +22,7 @@
 		$address = $result['address'];
 		$email = $result['email'];
 		$phone = $result['phone'];
+		$image = $result['image'];
 	}
 
 ?>
@@ -54,7 +56,7 @@
 						<p style="font-size: 1.5em;""><b>Telefoon nummer: </b><?php echo $phone; ?></p>
 					</div>
 					<span class="image object">
-						<img src="images/pic10.jpg" alt="">
+						<img src="<?php echo $image ?>" alt="">
 					</span>
 
 				</section>
