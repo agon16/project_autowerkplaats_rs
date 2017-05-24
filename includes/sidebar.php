@@ -59,7 +59,7 @@
 						<li><a href="overview_users.php">Medewerkers overzicht</a></li>
 						<li><a href="add_user.php">Medewerker toevoegen</a></li>
 						<li><a href="overview_roles.php">Rollen</a></li>
-						<li><a href="edit_profile.php">Profiel bewerken</a></li>
+						<li><a href="view_profile.php">Mijn profiel</a></li>
 					</ul>
 				</li>
 				<li><a href="overview_clients.php">Klanten</a></li>
