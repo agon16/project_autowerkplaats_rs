@@ -81,12 +81,16 @@
 		$sachi = $_POST['sachi'];
 		$car_model = $_POST['car_model'];
 		$company = $_POST['company'];
-		$target_dir = 'uploads/cars/';
+		$target_dir = "uploads/cars/";
 		$image = basename($_FILES["photo"]["name"]);
+		$ext = explode('.', $image);
+		$ext_count = count($ext); $ext_count = $ext_count-1;
+		$newImage = $target_dir.time().'.'.$ext[$ext_count]; //Renamed file
 
-		$sql = "INSERT INTO cars (person_id, car_model_id, sachi_number, license_plate, image, company_id) VALUES ('$person_id', '$car_model', '$sachi', '$license_plate', '$target_dir$image', '$company')";
+		$sql = "INSERT INTO cars (person_id, car_model_id, sachi_number, license_plate, image, company_id) VALUES ('$person_id', '$car_model', '$sachi', '$license_plate', '$newImage', '$company')";
 
-		if($conn->query($sql)) {
+		if($conn->query($sql)) {			
+
 			header("Location: ".$page);
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';

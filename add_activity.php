@@ -25,7 +25,9 @@
 		$car_id = $_POST['car_id'];
 		$target_dir = "uploads/cars/";
 		$image = basename($_FILES["photo"]["name"]);
-		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
+		$ext = explode('.', $image);
+		$ext_count = count($ext); $ext_count = $ext_count-1;
+		$newImage = $target_dir.time().'.'.$ext[$ext_count]; //Renamed file
 
 		$sql = "INSERT INTO activities (user_id, topic, description, car_id, created_at) VALUES ('$user_id', '$topic', '$description', '$car_id', NOW())";
 		if($conn->query($sql)) {
@@ -34,19 +36,12 @@
 
 			if(strlen($image) > 0) { // Verify if an image has been selected
 
-				//Fetch car_details -> Old image
-				$sql = "SELECT image AS old_image FROM cars WHERE id = '$car_id'";
-				$query = $conn->query($sql);
-				while ($result = $query->fetch_assoc()) {
-					$old_image = $result['old_image'];
-				}
-
 				//Update image
 				$sql = "UPDATE cars SET image = '$newImage' WHERE id = '$car_id'";
 				$conn->query($sql);
 
 				//Revision image
-				$sql_rev = "INSERT INTO image_revisions (user_id, car_id, activity_id, image, created_at) VALUES ('$user_id', '$car_id', '$activity_id', '$old_image', NOW())";
+				$sql_rev = "INSERT INTO image_revisions (user_id, car_id, activity_id, image, created_at) VALUES ('$user_id', '$car_id', '$activity_id', '$newImage', NOW())";
 				$conn->query($sql_rev);
 
 				$target_file = $target_dir . $image;

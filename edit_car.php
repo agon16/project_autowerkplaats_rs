@@ -22,7 +22,9 @@
 		$old_image = $_POST['old_image'];
 		$target_dir = "uploads/cars/";
 		$image = basename($_FILES["photo"]["name"]);
-		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
+		$ext = explode('.', $image);
+		$ext_count = count($ext); $ext_count = $ext_count-1;
+		$newImage = $target_dir.time().'.'.$ext[$ext_count]; //Renamed file
 
 		 //Verify if an image has been selected
 		if(strlen($image) == 0) {
@@ -31,7 +33,7 @@
 			$sql = "UPDATE cars SET person_id = '$person_id', license_plate = '$license_plate', car_model_id = '$model', image = '$newImage' WHERE id = '$car_id'";
 
 			//Revision image
-			$sql_rev = "INSERT INTO image_revisions (user_id, car_id, image, created_at) VALUES ('$user_id', '$car_id', '$old_image', NOW())";
+			$sql_rev = "INSERT INTO image_revisions (user_id, car_id, activity_id, image, created_at) VALUES ('$user_id', '$car_id', '$activity_id', '$newImage', NOW())";
 			$conn->query($sql_rev);
 		}
 

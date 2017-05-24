@@ -5,7 +5,7 @@
 
 	$box = "";
 
-	$id = $_GET['id'];
+	$user_id = $_GET['id'];
 
 	if(!isset($_GET['id'])) {
 		exit(); // Cancel loading page
@@ -22,7 +22,9 @@
 		$phone = $_POST['phone'];
 		$target_dir = "uploads/users/";
 		$image = basename($_FILES["photo"]["name"]);
-		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
+		$ext = explode('.', $image);
+		$ext_count = count($ext); $ext_count = $ext_count-1;
+		$newImage = $target_dir.time().'.'.$ext[$ext_count]; //Renamed file
 		$password1 = sha1($_POST['password1']);
 		$password2 = sha1($_POST['password2']);
 
@@ -34,13 +36,13 @@
 
 		//Verify if an image has been selected
 		if(strlen($image) == 0) {
-			$sql_ = " WHERE id = '$id'";
+			$sql_ = " WHERE id = '$user_id'";
 		} else {
-			$sql_ = ", image = '$newImage' WHERE id = '$id'";
+			$sql_ = ", image = '$newImage' WHERE id = '$user_id'";
 		}
 		
 		if($conn->query($sql.$sql_)) {
-			header("Location: overview_users.php");
+			header("Location: view_user.php?id=".$user_id);
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
@@ -71,7 +73,7 @@
 		}
 
 	} else {
-		$sql = "SELECT * FROM users WHERE id = '$id'";
+		$sql = "SELECT * FROM users WHERE id = '$user_id'";
 		$query = $conn->query($sql);
 
 		while ($result = $query->fetch_assoc()) {
@@ -111,7 +113,7 @@
 					<div class="6u 12u$(medium)">
 
 						<!-- Login form -->
-						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'].'?id='.$id; ?>">
+						<form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'].'?id='.$user_id; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
 									<input name="firstname" required="" id="firstname" value="<?php echo $firstname; ?>" placeholder="Voornaam" type="text">
