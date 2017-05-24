@@ -20,23 +20,31 @@
 		$address = $_POST['address'];
 		$email = $_POST['email'];
 		$phone = $_POST['phone'];
+		$target_dir = "uploads/users/";
 		$image = basename($_FILES["photo"]["name"]);
+		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
 		$password1 = sha1($_POST['password1']);
 		$password2 = sha1($_POST['password2']);
 
 		if($password1 == "da39a3ee5e6b4b0d3255bfef95601890afd80709" || $password2 == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
-			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$image' WHERE id = '$id'";
+			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone'";
 		} else {
-			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$image', password = '$password1' WHERE id = '$id'";
+			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', password = '$password1'";
+		}
+
+		//Verify if an image has been selected
+		if(strlen($image) == 0) {
+			$sql_ = " WHERE id = '$id'";
+		} else {
+			$sql_ = ", image = '$newImage' WHERE id = '$id'";
 		}
 		
-		if($conn->query($sql)) {
+		if($conn->query($sql.$sql_)) {
 			header("Location: overview_users.php");
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
 
-		$target_dir = "uploads/";
 		$target_file = $target_dir . $image;
 		$uploadOk = 1;
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -59,7 +67,7 @@
 		    // echo "Sorry, your file was not uploaded.";
 		// if everything is ok, try to upload file
 		} else {
-		    move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file);
+		    move_uploaded_file($_FILES["photo"]["tmp_name"], $newImage); //Rename file
 		}
 
 	} else {

@@ -4,7 +4,6 @@
 	require 'backend/db.php';
 
 	$box = "";
-
 	$user_id = $_SESSION['userID'];
 
 	if(isset($_SESSION['cache_activity'])) {
@@ -24,10 +23,49 @@
 		$topic = $_POST['topic'];
 		$description = $_POST['description'];
 		$car_id = $_POST['car_id'];
+		$target_dir = "uploads/cars/";
+		$image = basename($_FILES["photo"]["name"]);
+		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
 
 		$sql = "INSERT INTO activities (user_id, topic, description, car_id, created_at) VALUES ('$user_id', '$topic', '$description', '$car_id', NOW())";
 		if($conn->query($sql)) {
-			header("Location: overview_activities.php");
+
+			$activity_id = $conn->insert_id;
+
+			if(strlen($image) > 0) { // Verify if an image has been selected
+
+				//Fetch car_details -> Old image
+				$sql = "SELECT image AS old_image FROM cars WHERE id = '$car_id'";
+				$query = $conn->query($sql);
+				while ($result = $query->fetch_assoc()) {
+					$old_image = $result['old_image'];
+				}
+
+				//Update image
+				$sql = "UPDATE cars SET image = '$newImage' WHERE id = '$car_id'";
+				$conn->query($sql);
+
+				//Revision image
+				$sql_rev = "INSERT INTO image_revisions (user_id, car_id, activity_id, image, created_at) VALUES ('$user_id', '$car_id', '$activity_id', '$old_image', NOW())";
+				$conn->query($sql_rev);
+
+				$target_file = $target_dir . $image;
+				$uploadOk = 1;
+				$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+				$check = getimagesize($_FILES["photo"]["tmp_name"]);
+			    if($check !== false) {
+			        $uploadOk = 1;
+			    } else {
+			        $uploadOk = 0;
+			    }
+				if ($uploadOk == 0) {
+				} else {
+				    move_uploaded_file($_FILES["photo"]["tmp_name"], $newImage); //Rename file
+				}
+
+			}
+
+			header("Location: overview_activities.php"); // Go to overview page
 		} else {
 			$box = '<div class="box"><p>Foutmelding komt hierin. <b>Check dit</b></p></div>';
 		}
@@ -60,13 +98,13 @@
 
 				<!-- Content -->
 				<div class="row 200%">
-					<div class="4u 12u$(medium)">
+					<div class="3u 12u$(medium)">
 						<p style="color: white">.</p>
 					</div>
-					<div class="4u 12u$(medium)">
+					<div class="6u 12u$(medium)">
 
 						<!-- Login form -->
-						<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+						<form method="post" enctype="multipart/form-data"  action="<?php echo $_SERVER['PHP_SELF']; ?>">
 							<div class="row uniform">
 								<div class="12u 12u$(xsmall)">
 									<input name="topic" id="topic" value="<?php echo $topic; ?>" placeholder="Onderwerp" type="text">
@@ -105,9 +143,11 @@
 								<div class="12u$">
 									<ul class="actions">
 										<li><input value="Terug" class="button" type="button" onclick="history.go(-1);"></li>
+										<li><input id="btnUpload" class="button" type="button" value="Foto uploaden"></li>
 										<li><input value="Toevoegen" class="special" name="add" type="submit"></li>
 									</ul>
 								</div>
+								<input style="display: none;" name="photo" type="file">
 							</div>
 						</form>
 

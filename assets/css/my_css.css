@@ -56,11 +56,11 @@ footer {
 }
 
 .logo img {
-	width: 250px;
-	height: 250px;
+	width: 200px;
+	height: 200px;
 }
 
 	#frame {
 		position: absolute;
-		margin-left: -250px;
+		margin-left: -200px;
 	}

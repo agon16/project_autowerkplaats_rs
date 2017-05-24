@@ -67,6 +67,8 @@
 					</div>
 					<span class="image object">
 						<img src="<?php echo $image; ?>" alt="">
+							<br>
+						<a href="image_revisions.php?id=<?php echo $car_id; ?>">Revisie's</a>
 					</span>
 
 				</section>

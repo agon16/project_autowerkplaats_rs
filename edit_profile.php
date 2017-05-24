@@ -22,13 +22,14 @@
 		$email = $_POST['email'];
 		$phone = $_POST['phone'];
 		$image = $_POST['photo'];
+		$newImage = $target_dir.time().$_FILES["photo"]["name"]; //Renamed file
 		$password1 = sha1($_POST['password1']);
 		$password2 = sha1($_POST['password2']);
 
 		if($password1 == "da39a3ee5e6b4b0d3255bfef95601890afd80709" || $password2 == "da39a3ee5e6b4b0d3255bfef95601890afd80709") {
-			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$image' WHERE id = '$id'";
+			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$newImage' WHERE id = '$id'";
 		} else {
-			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$image', password = '$password1' WHERE id = '$id'";
+			$sql = "UPDATE users SET firstname = '$firstname', lastname = '$lastname', address = '$address', email = '$email', phone = '$phone', image = '$newImage', password = '$password1' WHERE id = '$id'";
 		}
 
 		// Photo upload
@@ -57,7 +58,7 @@
 		    // echo "Sorry, your file was not uploaded.";
 		// if everything is ok, try to upload file
 		} else {
-		    move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file);
+		    move_uploaded_file($_FILES["photo"]["tmp_name"], $newImage); //Rename file
 		}
 		
 		if($password1 != $password2) { // Password verification
