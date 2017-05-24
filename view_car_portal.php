@@ -168,7 +168,7 @@
 								</tbody>
 							</table>
 						</div>
-						<a href="overview_all_inspections.php?id=<?php echo $ins_id; ?>">Alle keuringen</a>
+						<a href="overview_all_inspections.php?id=<?php echo $car_id; ?>">Alle keuringen</a>
 						<!-- End inspections -->
 
 					</div>
