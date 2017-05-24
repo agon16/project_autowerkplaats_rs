@@ -36,6 +36,16 @@
 		}
 	}
 
+	/* Check if there are car revision's available */
+	$sql = "SELECT * FROM image_revisions WHERE car_id = '$car_id'";
+	$query = $conn->query($sql);
+
+	if($query->num_rows > 1) {
+		$revision = '<a href="image_revisions.php?id='.$car_id.'">Revisies</a>';
+	} else {
+		$revision = '';
+	}
+
 ?>
 <!-- Wrapper -->
 <div id="wrapper">
@@ -68,7 +78,7 @@
 					<span class="image object">
 						<img src="<?php echo $image; ?>" alt="">
 							<br>
-						<a href="image_revisions.php?id=<?php echo $car_id; ?>">Revisie's</a>
+						<?php echo $revision; ?>
 					</span>
 
 				</section>
