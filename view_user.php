@@ -7,9 +7,9 @@
 		exit(); // Cancel loading page
 	}
 
-	$id = $_GET['id'];
+	$user_id = $_GET['id'];
 
-	$sql = "SELECT * FROM users WHERE id = '$id'";
+	$sql = "SELECT * FROM users WHERE id = '$user_id'";
 	$query = $conn->query($sql);
 
 	if($query->num_rows == 0) {
@@ -44,7 +44,7 @@
 					<div align="center"><h2>Gebruiker details</h2></div>
 				</header>
 
-				<a href="overview_activities_user.php?id=<?php echo $id; ?>" class="button special">Gebruiker's werkzaamheden</a>
+				<a href="overview_activities_user.php?id=<?php echo $user_id; ?>" class="button special">Gebruiker's werkzaamheden</a>
 
 				<!-- Content -->
 				<section id="banner">
@@ -62,7 +62,7 @@
 				</section>
 
 				<button class="button" onclick="history.go(-1);">Terug</button>
-				<a href="edit_user.php?id=<?php echo $id ?>" class="button special icon fa-edit">Bewerken</a>
+				<a href="edit_user.php?id=<?php echo $user_id ?>" class="button special icon fa-edit">Bewerken</a>
 
 			</section>
 
