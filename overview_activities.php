@@ -65,7 +65,7 @@
 										$date1 = $_POST['date1'];
 										$date2 = $_POST['date2'];
 
-										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id WHERE activities.created_at BETWEEN '$date1' AND '$date2'";
+										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id WHERE activities.created_at BETWEEN '$date1' AND '$date2' ORDER BY id DESC";
 										$query = $conn->query($sql);
 
 										while ($result = $query->fetch_assoc()) {
@@ -94,7 +94,7 @@
 								<?php
 										}
 									} else {
-										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id";
+										$sql = "SELECT activities.*, users.firstname, users.lastname FROM activities INNER JOIN users ON users.id = activities.user_id ORDER BY id DESC";
 										$query = $conn->query($sql);
 
 										while ($result = $query->fetch_assoc()) {
