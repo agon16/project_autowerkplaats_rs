@@ -290,11 +290,21 @@
 function numericOnly(event) {
 	return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 0 || event.charCode == 46;
 }
+function dateOnly(event) {
+	return event.charCode >= 48 && event.charCode <= 57;
+}
 
 /* Switch user's state -> busy or availabl;e */
 function state(id) {
-	$.post('backend/state.php', {id:id}, function() {
-		window.location = window.location.href;
+	$.post('backend/state.php', {id:id}, function(data) {
+		data = JSON.parse(data);
+		if(data.busy == "yes") {
+			$('#busy').addClass('special');
+			$('#busy').html('Set status: <u>Beschikbaar</u>');
+		} else if(data.busy == "no") {
+			$('#busy').removeClass('special');
+			$('#busy').html('Set status: <u>Bezig</u>');
+		}
 	});
 }
 
