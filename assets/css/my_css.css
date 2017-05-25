@@ -5,36 +5,8 @@
     right: 50px;
     top: 55px;
 }
-.profile_holder{
-	height: 50px;
-	margin-left: 30px;
-}
-.profile_foto{
-	height: 100%;
-	border-radius: 100%;
-}
-.aanwezig{
-	position: absolute;
-	bottom: 0px;
-	left: 45px;
-	height: 15px;
-	width: 15px;
-	background-color: green;
-	border-radius: 100%; 
-}
-footer {
-  /* position:fixed;*/
-   left:0px;
-   bottom:0px;
-   height:30px;
-   width:100%;
-}
 .inline{ 
 	float:left;
-}
-.main_profile_page{
-	position: absolute;
-	left: 30px;
 }
 .nav_bar{
 	height: 70px;
@@ -50,7 +22,7 @@ footer {
 }
 .grafieken{
 	height: 400px;
-	width: 75%;
+	width: 100%;
 	margin-bottom: 20px;
 	border-top: 3px solid #f39c12;
 }
@@ -63,4 +35,41 @@ footer {
 	#frame {
 		position: absolute;
 		margin-left: -200px;
+	}
+
+.avatar-wrapper {
+	background-color: #546e7a;
+	width: 100%;
+	height: 75px;
+	padding-left: 13px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+
+	-webkit-box-shadow: -0px -4px 7px 1px grey;
+    -moz-box-shadow: -0px -4px 7px 1px grey;
+    box-shadow: -0px -4px 7px 1px grey;
+}
+
+/* Rounded avatars */
+.avatar {
+    float: left;
+    margin-top: 1em;
+    margin-right: 1em;
+    position: relative;
+
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+    -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 6px 6px 9px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 6px 6px 9px rgba(0,0,0,.2);
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 6px 6px 9px rgba(0,0,0,.2);
+
+    width: 50px;
+    height: 50px;
+}
+	.offline {
+		-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    	filter: grayscale(100%);
 	}
