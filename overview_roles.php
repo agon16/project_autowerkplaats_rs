@@ -127,6 +127,10 @@
 					</section>
 
 			</div>
+			<!-- Avatars -->
+			<?php
+				require 'includes/avatars.php';
+			?>
 		</div>
 	<script type="text/javascript">
 		document.getElementById('thead').style.display = '<?php echo $style; ?>';

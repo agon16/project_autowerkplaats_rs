@@ -142,6 +142,10 @@
 					</section>
 
 			</div>
+			<!-- Avatars -->
+			<?php
+				require 'includes/avatars.php';
+			?>
 		</div>
 
 	<!-- Sidebar -->

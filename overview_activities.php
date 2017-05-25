@@ -129,19 +129,23 @@
 								</div>
 
 							</div>
-						</div>
+						</div> <!-- row 200% -->
 
 					</section>
 
 			</div>
+			<!-- Avatars -->
+			<?php
+				require 'includes/avatars.php';
+			?>
 		</div>
 
 	<!-- Sidebar -->
 	<?php
 		require 'includes/sidebar.php';
 	?>
-
-</div>
+	
+</div> <!-- Wrapper -->
 
 <?php
 	require 'includes/foot.php';
